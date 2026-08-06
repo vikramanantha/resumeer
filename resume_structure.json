@@ -1,0 +1,336 @@
+{
+  "preamble": "\n\n% JUL 2026\n\n%-------------------------\n% Resume in Latex\n% Author : Jake Gutierrez\n% Based off of: https://github.com/sb2nov/resume\n% License : MIT\n%------------------------\n\n\\documentclass[letterpaper,11pt]{article}\n\n\\usepackage{latexsym}\n\\usepackage[empty]{fullpage}\n\\usepackage{titlesec}\n\\usepackage{marvosym}\n\\usepackage[usenames,dvipsnames]{color}\n\\definecolor{DarkBlue}{RGB}{10, 35, 66}\n\\usepackage{verbatim}\n\\usepackage{enumitem}\n\\usepackage[hidelinks]{hyperref}\n\\usepackage{fancyhdr}\n\\usepackage[english]{babel}\n\\usepackage{tabularx}\n\\usepackage{iftex}\n\\ifPDFTeX\n  \\input{glyphtounicode}\n\\fi\n\n\\usepackage{tgheros}\n\\renewcommand{\\familydefault}{\\sfdefault}\n\n\\pagestyle{fancy}\n\\fancyhf{}\n\\fancyfoot{}\n\\renewcommand{\\headrulewidth}{0pt}\n\\renewcommand{\\footrulewidth}{0pt}\n\n\\addtolength{\\oddsidemargin}{-0.8in}\n\\addtolength{\\evensidemargin}{-0.8in}\n\\addtolength{\\textwidth}{1.6in}\n\\addtolength{\\topmargin}{-0.8in}\n\\addtolength{\\textheight}{1.6in}\n\n\\urlstyle{same}\n\n\\raggedbottom\n\\raggedright\n\\setlength{\\tabcolsep}{0in}\n\n\\titleformat{\\section}{\n  \\vspace{-4pt}\\raggedright\\large\\color{DarkBlue}\n}{}{0em}{}[\\color{DarkBlue}\\titlerule \\vspace{-5pt}]\n\n\\ifPDFTeX\n  \\pdfgentounicode=1\n\\fi\n\n\\newcommand{\\resumeItem}[1]{\n  \\item\\small{\n    {#1 \\vspace{-2pt}}\n  }\n}\n\n\\newcommand{\\resumeSubheading}[4]{\n  \\vspace{-2pt}\\item\n    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}\n      \\textbf{#1} & #2 \\\\\n      \\textit{\\small#3} & \\textit{\\small #4} \\\\\n    \\end{tabular*}\\vspace{-7pt}\n}\n\n\\newcommand{\\resumeSubSubheading}[2]{\n    \\item\n    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}\n      \\textit{\\small#1} & \\textit{\\small #2} \\\\\n    \\end{tabular*}\\vspace{-7pt}\n}\n\n\\newcommand{\\resumeProjectHeading}[2]{\n    \\item\n    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}\n      \\small#1 & #2 \\\\\n    \\end{tabular*}\\vspace{-7pt}\n}\n\n\\newcommand{\\resumeResearchHeading}[2]{\n  \\vspace{-2pt}\\item\n    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}\n      \\textbf{#1} & #2 \\\\\n    \\end{tabular*}\\vspace{-7pt}\n}\n\n\\newcommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-4pt}}\n\n\\renewcommand\\labelitemii{$\\vcenter{\\hbox{\\tiny$\\bullet$}}$}\n\n\\newcommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}]}\n\\newcommand{\\resumeSubHeadingListEnd}{\\end{itemize}}\n\\newcommand{\\resumeItemListStart}{\\begin{itemize}}\n\\newcommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}\n\n\\begin{document}\n\n\\begin{center}\n    {\\color{DarkBlue}\\textbf{\\Huge Vikram Anantha}} \\\\ \\vspace{1pt}\n    \\small US Citizen $|$ Ann Arbor, MI $|$ 781-995-7110 $|$ \\href{mailto:markiv@umich.edu}{\\underline{markiv@umich.edu}} $|$ \n    \\href{https://linkedin.com/in/vikramanantha}{\\underline{linkedin.com/in/vikramanantha}} $|$\n    \\href{https://vikramanantha.github.io}{\\underline{vikramanantha.github.io}}\n\\end{center}",
+  "tail": "\n\\end{document}\n",
+  "sections": [
+    {
+      "title": "Education",
+      "kind": "heading-list",
+      "command": "resumeSubheading",
+      "entries": [
+        {
+          "args": [
+            "University of Michigan",
+            "Aug. 2024 -- May 2028 (expected)",
+            "B.S. Computer Science \\& Electrical Engineering",
+            "3.94/4.00 GPA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "\\textbf{Relevant coursework:} Logic Design, Differential Equations, Machine Learning, Computer Vision, Data Structures \\& Algorithms, Digital Circuits, Computer Organization, Linear Algebra, Discrete Math",
+              "enabled": true
+            },
+            {
+              "text": "\\textbf{Clubs:} Head Photo Editor of the Michiganensian Yearbook, Active member of Tau Beta Pi Engineering Honors Society",
+              "enabled": true
+            },
+            {
+              "text": "\\textbf{Honors:} 1 of 6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": ""
+    },
+    {
+      "title": "Industry Experience",
+      "kind": "heading-list",
+      "command": "resumeSubheading",
+      "entries": [
+        {
+          "args": [
+            "Meta",
+            "May. 2026 -- Jul. 2026",
+            "Software Eng. Intern",
+            "Menlo Park, CA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Created a novel prototype of Server Side Rendering for React Native mobile development on Meta's family of apps",
+              "enabled": true
+            },
+            {
+              "text": "Reduced bundle size by 30\\%, reached out to teams to measure impact and collect feedback on prototype",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Capoom",
+            "Jan. 2025 -- Dec. 2025",
+            "Software Eng. Intern, via Perot Jain Tech Lab at U of M's Center for Entrepreneurship",
+            "Ann Arbor, MI"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs",
+              "enabled": true
+            },
+            {
+              "text": "Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Stellantis",
+            "May 2025 -- Aug. 2025",
+            "ADAS Functional Integration Eng. Intern",
+            "Auburn Hills, MI"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Deployed CAPL script to analyze CAN-bus signals, identifying a 10\\% fault rate for ADAS teams",
+              "enabled": true
+            },
+            {
+              "text": "Designed MATLAB Simulink model to control CAN-bus signals, quantifying self-driving behavior",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Constant Therapy Health",
+            "Jun. 2024 -- Aug. 2024",
+            "Software Eng. Intern",
+            "Newton, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Fine-tuned Wav2Vec ASR on aphasia phonemes, achieving 4x lower false negative rate than Google's",
+              "enabled": true
+            },
+            {
+              "text": "Built task visualizer and LLM grammar detector to support stroke patient speech therapy",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "HELM Learning",
+            "Apr. 2020 -- May 2024",
+            "Co-Founder, Teacher, Developer",
+            "Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries",
+              "enabled": true
+            },
+            {
+              "text": "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": ""
+    },
+    {
+      "title": "Research Experience",
+      "kind": "heading-list",
+      "command": "resumeResearchHeading",
+      "entries": [
+        {
+          "args": [
+            "University of Michigan, ROAHM Robotics Lab",
+            "Aug. 2024 -- Present"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use",
+              "enabled": true
+            },
+            {
+              "text": "Developing Transformer-based VLA models for generalist robot policies across diverse tasks",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Columbia University, Center for Smart Streetscapes",
+            "May 2023 -- Feb. 2024"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "Developed CV + MQTT app to warn pedestrians of collisions; co-authored 2024 IEEE IV Symposium paper",
+              "enabled": true
+            },
+            {
+              "text": "Optimized alert pipeline to $<$1.5s latency, meeting human reaction time to prevent accidents",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Massachusetts Institute of Technology, Auto ID Lab",
+            "Jun. 2023 -- Sep. 2023"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": ""
+    },
+    {
+      "title": "Technical Skills",
+      "kind": "raw",
+      "command": "",
+      "entries": [],
+      "raw_text": " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
+    },
+    {
+      "title": "Selected Honors \\& Awards",
+      "kind": "heading-list",
+      "command": "resumeProjectHeading",
+      "entries": [
+        {
+          "args": [
+            "\\textbf{Immerse The Bay Hackathon, Stanford University}, \\emph{1st Place Winner}",
+            "Nov. 2025"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{American Invitational Mathematics Exam (AIME)}, \\emph{2 Time Qualifier}",
+            "Mar. 2021 \\& Feb. 2022"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{USA Coding Olympiad (USACO)}, \\emph{Silver Division}",
+            "Dec. 2019"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        }
+      ],
+      "raw_text": ""
+    },
+    {
+      "title": "Publications",
+      "kind": "heading-list",
+      "command": "resumeProjectHeading",
+      "entries": [
+        {
+          "args": [
+            "\\textbf{Digital Twin for Pedestrian Safety Warning at a Single Urban Traffic Intersection}",
+            "2024"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "V. Anantha, et al., 2024 IEEE Intelligent Vehicles Symposium (IV), pp. 2640-2645, doi: 10.1109/IV55156.2024.10588544",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Peer to Peer Learning Platform Optimized With Machine Learning}",
+            "2022"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "V. Anantha, arXiv:2209.03489, 2022",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": ""
+    }
+  ]
+}

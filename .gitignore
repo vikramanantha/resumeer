@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+
+# Monolithic file exceeds GitHub's 100MB limit; only the split
+# texlive-extra.data.part-* chunks (reassembled by sw.js) are committed.
+busytex-assets/texlive-extra.data

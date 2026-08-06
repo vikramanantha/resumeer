@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumeer - Vikram Anantha</title>
+    <meta name="description" content="Resumeer - Edit a LaTeX resume through dropdown fields and export a recompiled PDF, entirely in your browser.">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <style>
+        .resumeer-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .resumeer-container .form-panel,
+        .resumeer-container .preview-panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .resumeer-container .form-panel {
+            flex: 1 1 460px;
+            min-width: 320px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .resumeer-container .preview-panel {
+            flex: 1 1 460px;
+            min-width: 320px;
+            position: sticky;
+            top: 90px;
+        }
+
+        .resumeer-section {
+            margin-bottom: 22px;
+        }
+        .resumeer-section:last-child { margin-bottom: 0; }
+
+        .resumeer-section h2 {
+            color: var(--color-main);
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--color-main);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .resumeer-entry {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+        }
+
+        .resumeer-entry summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-main);
+            padding: 4px 0;
+        }
+
+        .enabled-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #555;
+            margin: 8px 0;
+        }
+
+        .field-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .field-row label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .field-row select,
+        .field-row input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .new-value-row {
+            display: flex;
+            gap: 6px;
+        }
+        .new-value-row[hidden] {
+            display: none;
+        }
+        .new-value-row input { flex: 1; }
+        .new-value-row button {
+            background-color: var(--color-main);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .new-value-row button:hover { background-color: var(--color-accent); }
+
+        .bullet-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .bullet-row input[type="checkbox"] { margin-top: 10px; }
+        .bullet-row .field-row { flex: 1; margin-bottom: 0; }
+
+        #compile-btn {
+            background-color: var(--color-main);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        #compile-btn:hover:not(:disabled) { background-color: var(--color-accent); }
+        #compile-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        #compile-status {
+            margin-top: 12px;
+            color: var(--color-main);
+            font-size: 0.9rem;
+        }
+        #compile-status.error { color: var(--color-accent); font-weight: 600; }
+
+        .compile-log {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            max-height: 200px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+
+        #preview-wrap { margin-top: 16px; }
+        #preview-frame {
+            width: 100%;
+            height: 70vh;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #download-link {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: var(--color-main);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        #download-link:hover { background-color: var(--color-accent); }
+
+        details.resumeer-entry > summary::-webkit-details-marker { color: var(--color-main); }
+
+        .tex-details { margin-top: 16px; }
+        .tex-details summary { cursor: pointer; color: var(--color-main); font-weight: 600; }
+        #tex-output {
+            max-height: 300px;
+            overflow: auto;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 900px) {
+            .resumeer-container .preview-panel { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="header-placeholder"></div>
+        <main>
+            <div class="title-card">
+                <div class="title-with-icon">
+                    <img src="icon.png" alt="Resumeer Icon" class="title-icon">
+                    <h1>Resumeer</h1>
+                </div>
+                <p>Edit my resume's dates, bullets, and entries via dropdowns, then preview and download &mdash; compiled entirely in your browser, no server involved.</p>
+            </div>
+
+            <div class="resumeer-container">
+                <div class="form-panel" id="resumeer-form">
+                    <p>Loading resume fields&hellip;</p>
+                </div>
+
+                <div class="preview-panel">
+                    <button id="compile-btn">Render PDF</button>
+                    <div id="compile-status" hidden></div>
+                    <div id="preview-wrap" hidden>
+                        <iframe id="preview-frame" title="Resume PDF preview"></iframe>
+                        <a id="download-link">Download PDF</a>
+                    </div>
+                    <details class="tex-details">
+                        <summary>View generated .tex</summary>
+                        <pre id="tex-output"></pre>
+                    </details>
+                </div>
+            </div>
+        </main>
+        <div id="footer-placeholder"></div>
+    </div>
+
+    <script src="../header.js"></script>
+    <script src="../footer.js"></script>
+    <script>
+        loadHeader();
+        loadFooter();
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

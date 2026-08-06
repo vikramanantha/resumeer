@@ -1,0 +1,8 @@
+{
+  "parts": [
+    "texlive-extra.data.part-aa",
+    "texlive-extra.data.part-ab",
+    "texlive-extra.data.part-ac",
+    "texlive-extra.data.part-ad"
+  ]
+}
