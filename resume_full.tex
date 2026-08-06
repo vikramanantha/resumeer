@@ -1,0 +1,232 @@
+
+
+% JUL 2026
+
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\definecolor{DarkBlue}{RGB}{10, 35, 66}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{iftex}
+\ifPDFTeX
+  \input{glyphtounicode}
+\fi
+
+\usepackage[sfdefault]{roboto}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.8in}
+\addtolength{\evensidemargin}{-0.8in}
+\addtolength{\textwidth}{1.6in}
+\addtolength{\topmargin}{-0.8in}
+\addtolength{\textheight}{1.6in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\raggedright\large\color{DarkBlue}
+}{}{0em}{}[\color{DarkBlue}\titlerule \vspace{-5pt}]
+
+\ifPDFTeX
+  \pdfgentounicode=1
+\fi
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeResearchHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+\begin{center}
+    {\color{DarkBlue}\textbf{\Huge Vikram Anantha}} \\ \vspace{1pt}
+    \small US Citizen $|$ Ann Arbor, MI $|$ 781-995-7110 $|$ \href{mailto:markiv@umich.edu}{\underline{markiv@umich.edu}} $|$ 
+    \href{https://linkedin.com/in/vikramanantha}{\underline{linkedin.com/in/vikramanantha}} $|$
+    \href{https://vikramanantha.github.io}{\underline{vikramanantha.github.io}}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Michigan}{Aug. 2024 -- May 2028 (expected)}
+      {B.S. Computer Science \& Electrical Engineering}{3.94/4.00 GPA}
+      \resumeItemListStart
+        \resumeItem{\textbf{Relevant coursework:} Logic Design, Differential Equations, Machine Learning, Computer Vision, Data Structures \& Algorithms, Digital Circuits, Computer Organization, Linear Algebra, Discrete Math}
+        \resumeItem{\textbf{Clubs:} Head Photo Editor of the Michiganensian Yearbook, Active member of Tau Beta Pi Engineering Honors Society}
+        \resumeItem{\textbf{Honors:} 1 of 6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------INDUSTRY EXPERIENCE-----------
+\section{Industry Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Meta}{May. 2026 -- Jul. 2026}
+      {Software Eng. Intern}{Menlo Park, CA}
+      \resumeItemListStart
+        \resumeItem{Created a novel prototype of Server Side Rendering for React Native mobile development on Meta's family of apps}
+        \resumeItem{Reduced bundle size by 30\%, reached out to teams to measure impact and collect feedback on prototype}
+      \resumeItemListEnd
+      
+    \resumeSubheading
+      {Capoom}{Jan. 2025 -- Dec. 2025}
+      {Software Eng. Intern, via Perot Jain Tech Lab at U of M's Center for Entrepreneurship}{Ann Arbor, MI}
+      \resumeItemListStart
+        \resumeItem{Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs}
+        \resumeItem{Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Stellantis}{May 2025 -- Aug. 2025}
+      {ADAS Functional Integration Eng. Intern}{Auburn Hills, MI}
+      \resumeItemListStart
+        \resumeItem{Deployed CAPL script to analyze CAN-bus signals, identifying a 10\% fault rate for ADAS teams}
+        \resumeItem{Designed MATLAB Simulink model to control CAN-bus signals, quantifying self-driving behavior}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Constant Therapy Health}{Jun. 2024 -- Aug. 2024}
+      {Software Eng. Intern}{Newton, MA}
+      \resumeItemListStart
+        \resumeItem{Fine-tuned Wav2Vec ASR on aphasia phonemes, achieving 4x lower false negative rate than Google's}
+        \resumeItem{Built task visualizer and LLM grammar detector to support stroke patient speech therapy}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {HELM Learning}{Apr. 2020 -- May 2024}
+      {Co-Founder, Teacher, Developer}{Lexington, MA}
+      \resumeItemListStart
+        \resumeItem{Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries}
+        \resumeItem{Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------RESEARCH EXPERIENCE-----------
+\section{Research Experience}
+  \resumeSubHeadingListStart
+
+    \resumeResearchHeading
+      {University of Michigan, ROAHM Robotics Lab}{Aug. 2024 -- Present}
+      \resumeItemListStart
+        \resumeItem{Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use}
+        \resumeItem{Developing Transformer-based VLA models for generalist robot policies across diverse tasks}
+      \resumeItemListEnd
+
+    \resumeResearchHeading
+      {Columbia University, Center for Smart Streetscapes}{May 2023 -- Feb. 2024}
+      \resumeItemListStart
+        \resumeItem{Developed CV + MQTT app to warn pedestrians of collisions; co-authored 2024 IEEE IV Symposium paper}
+        \resumeItem{Optimized alert pipeline to $<$1.5s latency, meeting human reaction time to prevent accidents}
+      \resumeItemListEnd
+
+    \resumeResearchHeading
+      {Massachusetts Institute of Technology, Auto ID Lab}{Jun. 2023 -- Sep. 2023}
+      \resumeItemListStart
+        \resumeItem{Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROGRAMMING SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\ 
+     \textbf{Frameworks \& Tools}{: Robot Operating System (ROS \& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}
+    }}
+ \end{itemize}
+
+%-----------HONORS & AWARDS-----------
+\section{Selected Honors \& Awards}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Immerse The Bay Hackathon, Stanford University}, \emph{1st Place Winner}}{Nov. 2025}
+      \resumeProjectHeading
+          {\textbf{American Invitational Mathematics Exam (AIME)}, \emph{2 Time Qualifier}}{Mar. 2021 \& Feb. 2022}
+      \resumeProjectHeading
+          {\textbf{USA Coding Olympiad (USACO)}, \emph{Silver Division}}{Dec. 2019}
+    \resumeSubHeadingListEnd
+
+%-----------PUBLICATIONS-----------
+\section{Publications}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Digital Twin for Pedestrian Safety Warning at a Single Urban Traffic Intersection}}{2024}
+          \resumeItemListStart
+            \resumeItem{V. Anantha, et al., 2024 IEEE Intelligent Vehicles Symposium (IV), pp. 2640-2645, doi: 10.1109/IV55156.2024.10588544}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Peer to Peer Learning Platform Optimized With Machine Learning}}{2022}
+          \resumeItemListStart
+            \resumeItem{V. Anantha, arXiv:2209.03489, 2022}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+\end{document}

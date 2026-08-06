@@ -1,0 +1,187 @@
+{
+  "Education > #0 > Organization": [
+    "University of Michigan"
+  ],
+  "Education > #0 > Dates": [
+    "Aug. 2024 -- May 2028 (expected)",
+    "Aug. 2024 -- Dec. 2027 (expected)",
+    "Aug. 2024 -- May 2027 (expected)"
+  ],
+  "Education > #0 > Title / Degree": [
+    "B.S. Computer Science \\& Electrical Engineering"
+  ],
+  "Education > #0 > Location / Detail": [
+    "3.94/4.00 GPA"
+  ],
+  "Education > #0 > bullet 0": [
+    "\\textbf{Relevant coursework:} Logic Design, Differential Equations, Machine Learning, Computer Vision, Data Structures \\& Algorithms, Digital Circuits, Computer Organization, Linear Algebra, Discrete Math"
+  ],
+  "Education > #0 > bullet 1": [
+    "\\textbf{Clubs:} Head Photo Editor of the Michiganensian Yearbook, Active member of Tau Beta Pi Engineering Honors Society"
+  ],
+  "Education > #0 > bullet 2": [
+    "\\textbf{Honors:} 1 of 6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship"
+  ],
+  "Industry Experience > #0 > Organization": [
+    "Meta"
+  ],
+  "Industry Experience > #0 > Dates": [
+    "May. 2026 -- Jul. 2026"
+  ],
+  "Industry Experience > #0 > Title / Degree": [
+    "Software Eng. Intern"
+  ],
+  "Industry Experience > #0 > Location / Detail": [
+    "Menlo Park, CA"
+  ],
+  "Industry Experience > #0 > bullet 0": [
+    "Created a novel prototype of Server Side Rendering for React Native mobile development on Meta's family of apps"
+  ],
+  "Industry Experience > #0 > bullet 1": [
+    "Reduced bundle size by 30\\%, reached out to teams to measure impact and collect feedback on prototype"
+  ],
+  "Industry Experience > #1 > Organization": [
+    "Capoom"
+  ],
+  "Industry Experience > #1 > Dates": [
+    "Jan. 2025 -- Dec. 2025"
+  ],
+  "Industry Experience > #1 > Title / Degree": [
+    "Software Eng. Intern, via Perot Jain Tech Lab at U of M's Center for Entrepreneurship"
+  ],
+  "Industry Experience > #1 > Location / Detail": [
+    "Ann Arbor, MI"
+  ],
+  "Industry Experience > #1 > bullet 0": [
+    "Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs"
+  ],
+  "Industry Experience > #1 > bullet 1": [
+    "Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers"
+  ],
+  "Industry Experience > #2 > Organization": [
+    "Stellantis"
+  ],
+  "Industry Experience > #2 > Dates": [
+    "May 2025 -- Aug. 2025"
+  ],
+  "Industry Experience > #2 > Title / Degree": [
+    "ADAS Functional Integration Eng. Intern"
+  ],
+  "Industry Experience > #2 > Location / Detail": [
+    "Auburn Hills, MI"
+  ],
+  "Industry Experience > #2 > bullet 0": [
+    "Deployed CAPL script to analyze CAN-bus signals, identifying a 10\\% fault rate for ADAS teams"
+  ],
+  "Industry Experience > #2 > bullet 1": [
+    "Designed MATLAB Simulink model to control CAN-bus signals, quantifying self-driving behavior"
+  ],
+  "Industry Experience > #3 > Organization": [
+    "Constant Therapy Health"
+  ],
+  "Industry Experience > #3 > Dates": [
+    "Jun. 2024 -- Aug. 2024"
+  ],
+  "Industry Experience > #3 > Title / Degree": [
+    "Software Eng. Intern"
+  ],
+  "Industry Experience > #3 > Location / Detail": [
+    "Newton, MA"
+  ],
+  "Industry Experience > #3 > bullet 0": [
+    "Fine-tuned Wav2Vec ASR on aphasia phonemes, achieving 4x lower false negative rate than Google's"
+  ],
+  "Industry Experience > #3 > bullet 1": [
+    "Built task visualizer and LLM grammar detector to support stroke patient speech therapy"
+  ],
+  "Industry Experience > #4 > Organization": [
+    "HELM Learning"
+  ],
+  "Industry Experience > #4 > Dates": [
+    "Apr. 2020 -- May 2024"
+  ],
+  "Industry Experience > #4 > Title / Degree": [
+    "Co-Founder, Teacher, Developer"
+  ],
+  "Industry Experience > #4 > Location / Detail": [
+    "Lexington, MA"
+  ],
+  "Industry Experience > #4 > bullet 0": [
+    "Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries"
+  ],
+  "Industry Experience > #4 > bullet 1": [
+    "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes"
+  ],
+  "Research Experience > #0 > Organization": [
+    "University of Michigan, ROAHM Robotics Lab"
+  ],
+  "Research Experience > #0 > Dates": [
+    "Aug. 2024 -- Present"
+  ],
+  "Research Experience > #0 > bullet 0": [
+    "Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use"
+  ],
+  "Research Experience > #0 > bullet 1": [
+    "Developing Transformer-based VLA models for generalist robot policies across diverse tasks"
+  ],
+  "Research Experience > #1 > Organization": [
+    "Columbia University, Center for Smart Streetscapes"
+  ],
+  "Research Experience > #1 > Dates": [
+    "May 2023 -- Feb. 2024"
+  ],
+  "Research Experience > #1 > bullet 0": [
+    "Developed CV + MQTT app to warn pedestrians of collisions; co-authored 2024 IEEE IV Symposium paper"
+  ],
+  "Research Experience > #1 > bullet 1": [
+    "Optimized alert pipeline to $<$1.5s latency, meeting human reaction time to prevent accidents"
+  ],
+  "Research Experience > #2 > Organization": [
+    "Massachusetts Institute of Technology, Auto ID Lab"
+  ],
+  "Research Experience > #2 > Dates": [
+    "Jun. 2023 -- Sep. 2023"
+  ],
+  "Research Experience > #2 > bullet 0": [
+    "Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication"
+  ],
+  "Technical Skills > content": [
+    " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
+  ],
+  "Selected Honors \\& Awards > #0 > Title": [
+    "\\textbf{Immerse The Bay Hackathon, Stanford University}, \\emph{1st Place Winner}"
+  ],
+  "Selected Honors \\& Awards > #0 > Dates": [
+    "Nov. 2025"
+  ],
+  "Selected Honors \\& Awards > #1 > Title": [
+    "\\textbf{American Invitational Mathematics Exam (AIME)}, \\emph{2 Time Qualifier}"
+  ],
+  "Selected Honors \\& Awards > #1 > Dates": [
+    "Mar. 2021 \\& Feb. 2022"
+  ],
+  "Selected Honors \\& Awards > #2 > Title": [
+    "\\textbf{USA Coding Olympiad (USACO)}, \\emph{Silver Division}"
+  ],
+  "Selected Honors \\& Awards > #2 > Dates": [
+    "Dec. 2019"
+  ],
+  "Publications > #0 > Title": [
+    "\\textbf{Digital Twin for Pedestrian Safety Warning at a Single Urban Traffic Intersection}"
+  ],
+  "Publications > #0 > Dates": [
+    "2024"
+  ],
+  "Publications > #0 > bullet 0": [
+    "V. Anantha, et al., 2024 IEEE Intelligent Vehicles Symposium (IV), pp. 2640-2645, doi: 10.1109/IV55156.2024.10588544"
+  ],
+  "Publications > #1 > Title": [
+    "\\textbf{Peer to Peer Learning Platform Optimized With Machine Learning}"
+  ],
+  "Publications > #1 > Dates": [
+    "2022"
+  ],
+  "Publications > #1 > bullet 0": [
+    "V. Anantha, arXiv:2209.03489, 2022"
+  ]
+}
