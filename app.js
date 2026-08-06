@@ -204,24 +204,40 @@ function buildForm(container) {
   });
 }
 
+// Best-effort: registers the Service Worker that reassembles the chunked
+// texlive-extra.data. This must never block the compile forever -- if it
+// doesn't confirm control within a few seconds, we proceed anyway. Worst
+// case the chunked-file fetch itself fails later with a visible error
+// (and if the unsplit texlive-extra.data happens to be present, e.g. in
+// local dev, the SW isn't even needed for that fetch to succeed).
 async function ensureServiceWorker() {
   if (!("serviceWorker" in navigator)) {
-    throw new Error("Service Workers aren't supported in this browser, so the split texlive-extra.data can't be reassembled.");
+    console.warn("[Resumeer] Service Workers not supported in this browser.");
+    return;
   }
-  await navigator.serviceWorker.register("sw.js", { scope: "./" });
-  await navigator.serviceWorker.ready;
-  if (!navigator.serviceWorker.controller) {
-    // First-ever visit: the page loaded before the SW could control it.
-    // sw.js calls clients.claim() on activation, which claims this already-open
-    // page without a reload -- just wait for that to take effect.
-    await new Promise((resolve) => {
-      if (navigator.serviceWorker.controller) {
-        resolve();
-        return;
-      }
+  try {
+    console.info("[Resumeer] Registering service worker...");
+    await navigator.serviceWorker.register("sw.js", { scope: "./" });
+    await navigator.serviceWorker.ready;
+    console.info("[Resumeer] Service worker ready. Controller present:", !!navigator.serviceWorker.controller);
+  } catch (err) {
+    console.warn("[Resumeer] Service worker registration failed:", err);
+    return;
+  }
+
+  if (navigator.serviceWorker.controller) return;
+
+  // First-ever visit: the page loaded before the SW could control it.
+  // sw.js calls clients.claim() on activation, which claims this already-open
+  // page without a reload -- wait for that, but don't block indefinitely.
+  console.info("[Resumeer] Waiting for service worker to take control...");
+  await Promise.race([
+    new Promise((resolve) => {
       navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
-    });
-  }
+    }),
+    new Promise((resolve) => setTimeout(resolve, 5000)),
+  ]);
+  console.info("[Resumeer] Proceeding. Controller present:", !!navigator.serviceWorker.controller);
 }
 
 async function ensureEngine(onProgress) {
