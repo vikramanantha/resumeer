@@ -4,6 +4,8 @@ Aug 2026
 
 Resumé her? I hardly know her!
 
+I have to make like 17 different versions of my resume to apply to jobs and internships. It's always the same type of chnage too, so I figured I'd make it a big easier to make these changes
+
 Edit a LaTeX resume through dropdown-based fields (dates, bullets, whole
 entries) and export a recompiled PDF.
 

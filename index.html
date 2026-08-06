@@ -69,15 +69,30 @@
             font-weight: 600;
             color: var(--color-main);
             padding: 4px 0;
-        }
-
-        .enabled-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            color: #555;
-            margin: 8px 0;
+            gap: 8px;
+            list-style: none;
+        }
+        .resumeer-entry summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .resumeer-caret {
+            font-size: 0.75em;
+            color: var(--color-main);
+            flex-shrink: 0;
+            transition: transform 0.15s ease;
+        }
+        .resumeer-entry[open] .resumeer-caret {
+            transform: rotate(90deg);
+        }
+
+        .entry-enabled-checkbox {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
         .field-row {

@@ -139,24 +139,29 @@ function buildForm(container) {
       entryEl.className = "resumeer-entry";
 
       const summary = document.createElement("summary");
-      const setSummary = () =>
-        (summary.textContent = (entry.enabled ? "✅ " : "⬜ ") + (entry.args[0] || "(entry)"));
-      setSummary();
-      entryEl.appendChild(summary);
 
-      const enabledRow = document.createElement("label");
-      enabledRow.className = "enabled-row";
+      const caret = document.createElement("i");
+      caret.className = "fas fa-chevron-right resumeer-caret";
+      summary.appendChild(caret);
+
       const enabledCb = document.createElement("input");
       enabledCb.type = "checkbox";
       enabledCb.checked = entry.enabled;
+      enabledCb.className = "entry-enabled-checkbox";
+      enabledCb.title = "Include this entry";
+      // Clicking the checkbox shouldn't also toggle the <details> open/closed.
+      enabledCb.addEventListener("click", (e) => e.stopPropagation());
       enabledCb.addEventListener("change", () => {
         entry.enabled = enabledCb.checked;
-        setSummary();
         fieldsWrap.hidden = !entry.enabled;
       });
-      enabledRow.appendChild(enabledCb);
-      enabledRow.appendChild(document.createTextNode(" Include this entry"));
-      entryEl.appendChild(enabledRow);
+      summary.appendChild(enabledCb);
+
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = entry.args[0] || "(entry)";
+      summary.appendChild(titleSpan);
+
+      entryEl.appendChild(summary);
 
       const fieldsWrap = document.createElement("div");
       fieldsWrap.hidden = !entry.enabled;
@@ -166,7 +171,7 @@ function buildForm(container) {
         fieldsWrap.appendChild(
           buildDropdown(fname, entry.args[fIdx], key, (val) => {
             entry.args[fIdx] = val;
-            if (fIdx === 0) setSummary();
+            if (fIdx === 0) titleSpan.textContent = val;
           })
         );
       });
@@ -207,9 +212,15 @@ async function ensureServiceWorker() {
   await navigator.serviceWorker.ready;
   if (!navigator.serviceWorker.controller) {
     // First-ever visit: the page loaded before the SW could control it.
-    // Reload once so subsequent fetches (including from the BusyTeX worker) are intercepted.
-    window.location.reload();
-    return new Promise(() => {}); // reload supersedes the rest of this run
+    // sw.js calls clients.claim() on activation, which claims this already-open
+    // page without a reload -- just wait for that to take effect.
+    await new Promise((resolve) => {
+      if (navigator.serviceWorker.controller) {
+        resolve();
+        return;
+      }
+      navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
+    });
   }
 }
 
