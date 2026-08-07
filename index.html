@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumeer - Vikram Anantha</title>
+    <title>Resuméer - Vikram Anantha</title>
     <meta name="description" content="Resumeer - Edit a LaTeX resume through dropdown fields and export a recompiled PDF, entirely in your browser.">
 
     <link rel="stylesheet" href="../style.css">
@@ -49,12 +49,29 @@
         }
         .resumeer-section:last-child { margin-bottom: 0; }
 
-        .resumeer-section h2 {
-            color: var(--color-main);
-            font-size: 1.1rem;
+        .resumeer-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             border-bottom: 2px solid var(--color-main);
             padding-bottom: 6px;
             margin-bottom: 10px;
+        }
+
+        .resumeer-section-header h2 {
+            color: var(--color-main);
+            font-size: 1.1rem;
+        }
+
+        .section-enabled-checkbox {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .resumeer-section-body[hidden] {
+            display: none;
         }
 
         .resumeer-entry {
@@ -246,9 +263,9 @@
             <div class="title-card">
                 <div class="title-with-icon">
                     <img src="icon.png" alt="Resumeer Icon" class="title-icon">
-                    <h1>Resumeer</h1>
+                    <h1>Resuméer</h1>
                 </div>
-                <p>When I'm applying to jobs I have to create like 30 different versions of my resume. Surely, there's a better way.</p>
+                <p>When I'm applying to jobs I have to create like 30 different versions of my resume. Surely, there's a better way. Read the <a style="color: var(--color-main);" href='https://github.com/vikramanantha/resumeer'>README</a>.</p>
             </div>
 
             <div class="resumeer-container">

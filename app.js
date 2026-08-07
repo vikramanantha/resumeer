@@ -119,13 +119,35 @@ function buildForm(container) {
   resumeData.sections.forEach((section, sIdx) => {
     const sectionEl = document.createElement("div");
     sectionEl.className = "resumeer-section";
+
+    const header = document.createElement("div");
+    header.className = "resumeer-section-header";
+
+    const sectionCb = document.createElement("input");
+    sectionCb.type = "checkbox";
+    sectionCb.checked = section.enabled;
+    sectionCb.className = "section-enabled-checkbox";
+    sectionCb.title = "Include this section";
+    sectionCb.addEventListener("change", () => {
+      section.enabled = sectionCb.checked;
+      bodyWrap.hidden = !section.enabled;
+    });
+    header.appendChild(sectionCb);
+
     const h2 = document.createElement("h2");
     h2.textContent = section.title;
-    sectionEl.appendChild(h2);
+    header.appendChild(h2);
+
+    sectionEl.appendChild(header);
+
+    const bodyWrap = document.createElement("div");
+    bodyWrap.className = "resumeer-section-body";
+    bodyWrap.hidden = !section.enabled;
+    sectionEl.appendChild(bodyWrap);
 
     if (section.kind === "raw") {
       const key = rawKey(section.title);
-      sectionEl.appendChild(
+      bodyWrap.appendChild(
         buildDropdown("", section.raw_text, key, (val) => {
           section.raw_text = val;
         })
@@ -197,7 +219,7 @@ function buildForm(container) {
       });
 
       entryEl.appendChild(fieldsWrap);
-      sectionEl.appendChild(entryEl);
+      bodyWrap.appendChild(entryEl);
     });
 
     container.appendChild(sectionEl);

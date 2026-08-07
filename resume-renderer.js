@@ -45,6 +45,7 @@ export function renderSection(section) {
 export function renderDocument(resume) {
   const parts = [resume.preamble, ""];
   for (const section of resume.sections) {
+    if (!section.enabled) continue;
     parts.push(renderSection(section));
     parts.push("");
   }

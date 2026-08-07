@@ -99,6 +99,7 @@ class Section:
     command: str = ""  # which \resume...Heading macro this section uses
     entries: list[Entry] = field(default_factory=list)
     raw_text: str = ""
+    enabled: bool = True
 
 
 @dataclass
@@ -244,6 +245,8 @@ def render_section(section: Section) -> str:
 def render_document(resume: Resume) -> str:
     parts = [resume.preamble, ""]
     for section in resume.sections:
+        if not section.enabled:
+            continue
         parts.append(render_section(section))
         parts.append("")
     parts.append(resume.tail)
