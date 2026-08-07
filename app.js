@@ -315,7 +315,7 @@ async function init() {
       const hash = (await hashText(result.texSource)).slice(0, 10);
       previewFrame.src = url;
       downloadLink.href = url;
-      downloadLink.download = `resume_${hash}.pdf`;
+      downloadLink.download = `resume_vikramanantha_${hash}.pdf`;
       previewWrap.hidden = false;
     } catch (err) {
       statusEl.textContent = "Error: " + err.message;
