@@ -91,6 +91,11 @@
             gap: 8px;
             list-style: none;
         }
+        .resumeer-entry-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         .resumeer-entry summary::-webkit-details-marker {
             display: none;
         }
@@ -125,7 +130,6 @@
             font-weight: 600;
         }
 
-        .field-row select,
         .field-row input[type="text"] {
             padding: 8px;
             border: 1px solid #ccc;
@@ -133,6 +137,78 @@
             font-family: var(--font-primary);
             font-size: 0.9rem;
             width: 100%;
+        }
+
+        .tex-select {
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            outline: none;
+        }
+        .tex-select:focus {
+            border-color: var(--color-main);
+        }
+
+        .tex-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .tex-select-current {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .tex-select-caret {
+            font-size: 0.7em;
+            color: var(--color-main);
+            flex-shrink: 0;
+            transition: transform 0.15s ease;
+        }
+        .tex-select.open .tex-select-caret {
+            transform: rotate(180deg);
+        }
+
+        .tex-select-menu {
+            position: absolute;
+            top: calc(100% + 2px);
+            left: 0;
+            right: 0;
+            z-index: 20;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 240px;
+            overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .tex-select-menu[hidden] {
+            display: none;
+        }
+
+        .tex-select-option {
+            padding: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .tex-select-option:hover {
+            background: #f0f0f0;
+        }
+        .tex-select-option.selected {
+            background: #e8edf3;
+        }
+        .tex-select-option.tex-select-add-new {
+            color: var(--color-main);
+            font-style: italic;
+            border-top: 1px solid #eee;
         }
 
         .new-value-row {

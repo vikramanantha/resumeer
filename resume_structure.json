@@ -422,6 +422,27 @@
             }
           ],
           "enabled": true
+        },
+        {
+          "args": [
+            "Lexington High School Yearbook + newspaper \\emph{The Musket}",
+            "Sept. 2022 -- Jun. 2024",
+            "Head Photo Editor",
+            "Lexington High School, Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Manage photographic workflow, organize assignments, deadlines, credentials; lead meetings for development and critiques, proof and re-edit for aesthetic coherence",
+              "enabled": true
+            }
+          ],
+          "enabled": true
         }
       ],
       "raw_text": "",
@@ -454,8 +475,32 @@
         },
         {
           "args": [
+            "\\textbf{Lexington Public Schools Core Values award}, \\emph{Recipeint, awarded by LPS superintendent}",
+            "Oct. 2023"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
             "\\textbf{Diamond Challenge Business Competition}, \\emph{1st Place Winner for HELM Learning}",
             "Mar. 2023"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Drexel University High School Photo Contest}, \\emph{Selected for Photo Exhibition}",
+            "Dec. 2022 \\& 2023"
           ],
           "field_names": [
             "Title",
@@ -492,6 +537,18 @@
           "args": [
             "\\textbf{American Invitational Mathematics Exam (AIME)}, \\emph{2 Time Qualifier}",
             "Mar. 2021 \\& Feb. 2022"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Presidential Volunteer Service Award (PVSA)}, \\emph{Gold Award Recipient}",
+            "Nov. 2021"
           ],
           "field_names": [
             "Title",

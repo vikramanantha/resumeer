@@ -44,10 +44,80 @@ function optionsFor(key, currentValue) {
   return Array.from(new Set([...shipped, ...local, currentValue]));
 }
 
-function truncate(value, n = 90) {
-  const s = value.replace(/\n/g, " / ");
-  return s.length <= n ? s : s.slice(0, n - 3) + "...";
+// Small LaTeX-subset -> HTML converter, purely for display in the dropdown
+// list: renders \textbf{...} and \emph{...}/\textit{...} (with nesting) as
+// real bold/italic, unescapes common specials (\& \% \$ \# \_) and simple
+// math-mode escapes ($<$, $>$, $|$, ...), and passes everything else
+// through as literal (HTML-escaped) text. Generic by content, not tied to
+// any section/field name -- it just renders whatever markup is present.
+function texInlineToHtml(text) {
+  let i = 0;
+  const n = text.length;
+
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function parseGroup() {
+    i++; // consume '{'
+    let html = "";
+    while (i < n && text[i] !== "}") html += parseToken();
+    if (i < n) i++; // consume '}'
+    return html;
+  }
+
+  function parseToken() {
+    if (text.startsWith("\\textbf{", i)) {
+      i += 7;
+      return `<strong>${parseGroup()}</strong>`;
+    }
+    if (text.startsWith("\\emph{", i)) {
+      i += 5;
+      return `<em>${parseGroup()}</em>`;
+    }
+    if (text.startsWith("\\textit{", i)) {
+      i += 7;
+      return `<em>${parseGroup()}</em>`;
+    }
+    if (text[i] === "\\" && "&%$#_{}".includes(text[i + 1] || "")) {
+      const ch = text[i + 1];
+      i += 2;
+      return esc(ch);
+    }
+    if (text[i] === "$") {
+      let j = i + 1;
+      while (j < n && text[j] !== "$") j++;
+      const inner = text.slice(i + 1, j);
+      i = j + 1;
+      return esc(inner);
+    }
+    if (text[i] === "{") return parseGroup();
+    const ch = text[i];
+    i++;
+    return esc(ch);
+  }
+
+  let out = "";
+  while (i < n) out += parseToken();
+  return out;
 }
+
+function formatChoiceHtml(value, maxLen = 100) {
+  const raw = value.replace(/\n/g, " / ");
+  const truncated = raw.length <= maxLen ? raw : raw.slice(0, maxLen - 3) + "...";
+  return texInlineToHtml(truncated);
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll(".tex-select.open").forEach((el) => {
+    el.classList.remove("open");
+    const menu = el.querySelector(".tex-select-menu");
+    if (menu) menu.hidden = true;
+  });
+}
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".tex-select")) closeAllDropdowns();
+});
 
 function buildDropdown(labelText, currentValue, key, onChange) {
   const wrap = document.createElement("div");
@@ -59,19 +129,25 @@ function buildDropdown(labelText, currentValue, key, onChange) {
     wrap.appendChild(label);
   }
 
-  const select = document.createElement("select");
-  for (const choice of optionsFor(key, currentValue)) {
-    const opt = document.createElement("option");
-    opt.value = choice;
-    opt.textContent = truncate(choice);
-    if (choice === currentValue) opt.selected = true;
-    select.appendChild(opt);
-  }
-  const addOpt = document.createElement("option");
-  addOpt.value = ADD_NEW;
-  addOpt.textContent = "+ Add new option...";
-  select.appendChild(addOpt);
-  wrap.appendChild(select);
+  const combo = document.createElement("div");
+  combo.className = "tex-select";
+  combo.tabIndex = 0;
+
+  const trigger = document.createElement("div");
+  trigger.className = "tex-select-trigger";
+  const currentEl = document.createElement("div");
+  currentEl.className = "tex-select-current";
+  currentEl.innerHTML = formatChoiceHtml(currentValue);
+  const caret = document.createElement("i");
+  caret.className = "fas fa-chevron-down tex-select-caret";
+  trigger.appendChild(currentEl);
+  trigger.appendChild(caret);
+  combo.appendChild(trigger);
+
+  const menu = document.createElement("div");
+  menu.className = "tex-select-menu";
+  menu.hidden = true;
+  combo.appendChild(menu);
 
   const newRow = document.createElement("div");
   newRow.className = "new-value-row";
@@ -84,15 +160,54 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   addBtn.textContent = "Add";
   newRow.appendChild(newInput);
   newRow.appendChild(addBtn);
-  wrap.appendChild(newRow);
 
-  select.addEventListener("change", () => {
-    if (select.value === ADD_NEW) {
+  function selectValue(val) {
+    currentValue = val;
+    currentEl.innerHTML = formatChoiceHtml(val);
+    onChange(val);
+  }
+
+  function renderMenu() {
+    menu.innerHTML = "";
+    for (const choice of optionsFor(key, currentValue)) {
+      const opt = document.createElement("div");
+      opt.className = "tex-select-option";
+      opt.innerHTML = formatChoiceHtml(choice);
+      if (choice === currentValue) opt.classList.add("selected");
+      opt.addEventListener("click", () => {
+        closeAllDropdowns();
+        selectValue(choice);
+      });
+      menu.appendChild(opt);
+    }
+    const addOpt = document.createElement("div");
+    addOpt.className = "tex-select-option tex-select-add-new";
+    addOpt.textContent = "+ Add new option...";
+    addOpt.addEventListener("click", () => {
+      closeAllDropdowns();
       newRow.hidden = false;
       newInput.focus();
+    });
+    menu.appendChild(addOpt);
+  }
+
+  trigger.addEventListener("click", () => {
+    if (menu.hidden) {
+      closeAllDropdowns();
+      renderMenu();
+      menu.hidden = false;
+      combo.classList.add("open");
     } else {
-      newRow.hidden = true;
-      onChange(select.value);
+      closeAllDropdowns();
+    }
+  });
+
+  combo.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      trigger.click();
+    } else if (e.key === "Escape") {
+      closeAllDropdowns();
     }
   });
 
@@ -100,16 +215,13 @@ function buildDropdown(labelText, currentValue, key, onChange) {
     const val = newInput.value.trim();
     if (!val) return;
     addLocalOption(key, val);
-    onChange(val);
-    const opt = document.createElement("option");
-    opt.value = val;
-    opt.textContent = truncate(val);
-    opt.selected = true;
-    select.insertBefore(opt, select.lastElementChild);
+    selectValue(val);
     newRow.hidden = true;
     newInput.value = "";
   });
 
+  wrap.appendChild(combo);
+  wrap.appendChild(newRow);
   return wrap;
 }
 
@@ -180,7 +292,8 @@ function buildForm(container) {
       summary.appendChild(enabledCb);
 
       const titleSpan = document.createElement("span");
-      titleSpan.textContent = entry.args[0] || "(entry)";
+      titleSpan.className = "resumeer-entry-title";
+      titleSpan.innerHTML = formatChoiceHtml(entry.args[0] || "(entry)");
       summary.appendChild(titleSpan);
 
       entryEl.appendChild(summary);
@@ -193,7 +306,7 @@ function buildForm(container) {
         fieldsWrap.appendChild(
           buildDropdown(fname, entry.args[fIdx], key, (val) => {
             entry.args[fIdx] = val;
-            if (fIdx === 0) titleSpan.textContent = val;
+            if (fIdx === 0) titleSpan.innerHTML = formatChoiceHtml(val);
           })
         );
       });
