@@ -30,7 +30,7 @@
               "enabled": true
             },
             {
-              "text": "\\textbf{Honors:} 1 of 6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship",
+              "text": "\\textbf{Honors:} 1/6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship",
               "enabled": true
             }
           ],
@@ -51,7 +51,7 @@
           ],
           "bullets": [
             {
-              "text": "36/36 ACT score • 5/5 on AP Computer Science A, AP Calculus BC, AP Physics C, AP Chem",
+              "text": "36/36 ACT score • 5/5 on AP Computer Science A, AP Calculus BC, AP Physics C, AP Chemistry, AP Statistics, AP Biology",
               "enabled": true
             }
           ],
@@ -375,7 +375,11 @@
           ],
           "bullets": [
             {
-              "text": "Manage photographic workflow, organize assignments, deadlines, credentials; lead meetings for development and critiques, proof and re-edit for aesthetic coherence",
+              "text": "Manage photographic workflow, organize assignments, deadlines, credentials",
+              "enabled": true
+            },
+            {
+              "text": "Lead meetings for development and critiques, proof and re-edit for aesthetic coherence",
               "enabled": true
             }
           ],
@@ -438,7 +442,11 @@
           ],
           "bullets": [
             {
-              "text": "Manage photographic workflow, organize assignments, deadlines, credentials; lead meetings for development and critiques, proof and re-edit for aesthetic coherence",
+              "text": "Managed photographic workflow, organized assignments, deadlines, credentials",
+              "enabled": true
+            },
+            {
+              "text": "Lead meetings for development and critiques, proofed and re-edited for aesthetic coherence",
               "enabled": true
             }
           ],
