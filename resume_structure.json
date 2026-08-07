@@ -170,7 +170,7 @@
           "args": [
             "HELM Learning",
             "Apr. 2020 -- May 2024",
-            "Co-Founder, Teacher, Developer",
+            "Co-Founder, Instructor, Developer",
             "Lexington, MA"
           ],
           "field_names": [
@@ -186,6 +186,31 @@
             },
             {
               "text": "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "KTBYTE",
+            "Apr. 2018 -- May 2024",
+            "Instructor",
+            "Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Lead instructor \\& curriculum developer of Python, Java, Arduino classes for 100+ students, ages 8-18",
+              "enabled": true
+            },
+            {
+              "text": "Robotics class lead instructor, mentored students to create inventions w/ Arduino + Raspberry Pi; 15+ students won awards nationally",
               "enabled": true
             }
           ],
@@ -321,6 +346,78 @@
           "bullets": [
             {
               "text": "Created a Reinforcement Learning agent to mimic primates when they learn under a changing environment",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": "",
+      "enabled": true
+    },
+    {
+      "title": "Photography Experience",
+      "kind": "heading-list",
+      "command": "resumeSubheading",
+      "entries": [
+        {
+          "args": [
+            "Michiganensian Yearbook ",
+            "Sept. 2024 -- Present",
+            "Head Photo Editor",
+            "University of Michigan, Ann Arbor, MI"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Manage photographic workflow, organize assignments, deadlines, credentials; lead meetings for development and critiques, proof and re-edit for aesthetic coherence",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Lexington Observer",
+            "Jun. 2023 -- Present",
+            "Staff Photographer",
+            "Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Official Photographer for the Town of Lexington MA's online journal; 50+ photos; My articles: \\href{https://lexobserver.org/author/vikram-anantha}{lexobserver.org/author/vikram-anantha}",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Town of Lexington, Lexington Public Schools",
+            "Jun. 2023 -- Present",
+            "Freelance Photographer",
+            "Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Official Photographer for the Lexington MA's town government and public schools; 100+ photos",
               "enabled": true
             }
           ],
