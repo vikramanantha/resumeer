@@ -252,6 +252,16 @@ async function ensureEngine(onProgress) {
   pdflatex = new PdfLatex(runner);
 }
 
+// Deterministic, non-reversible: same selections -> same hash, but the
+// hash itself gives no hint which entries/bullets/values were picked.
+async function hashText(text) {
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 async function compileResume(onProgress) {
   await ensureEngine(onProgress);
   const texSource = renderDocument(resumeData);
@@ -302,9 +312,10 @@ async function init() {
       statusEl.hidden = true;
       const blob = new Blob([result.pdf], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
+      const hash = (await hashText(result.texSource)).slice(0, 10);
       previewFrame.src = url;
       downloadLink.href = url;
-      downloadLink.download = "resume.pdf";
+      downloadLink.download = `resume_${hash}.pdf`;
       previewWrap.hidden = false;
     } catch (err) {
       statusEl.textContent = "Error: " + err.message;
