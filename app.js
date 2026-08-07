@@ -1,5 +1,5 @@
 import { renderDocument } from "./resume-renderer.js";
-import { BusyTexRunner, PdfLatex } from "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/dist/index.js";
+import { BusyTexRunner, PdfLatex, clearAllPackageCache } from "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/dist/index.js";
 
 const ADD_NEW = "__add_new__";
 const LOCAL_OPTIONS_KEY = "resumeer_local_options_v1";
@@ -287,8 +287,75 @@ async function init() {
   const downloadLink = document.getElementById("download-link");
   const texOutput = document.getElementById("tex-output");
 
+  function clearExtraStatusElements() {
+    document.querySelectorAll(".compile-log, .retry-actions").forEach((el) => el.remove());
+    statusEl.classList.remove("error");
+  }
+
+  async function resetEngineState() {
+    // Terminate the old runner's Worker first -- it holds its own open
+    // IndexedDB connection, which can silently block deleteDatabase() below
+    // from actually completing if left running.
+    try {
+      runner?.terminate();
+      console.info("[Resumeer] Terminated previous engine instance.");
+    } catch (err) {
+      console.warn("[Resumeer] Failed to terminate previous engine:", err);
+    }
+    runner = null;
+    pdflatex = null;
+    try {
+      await clearAllPackageCache();
+      console.info("[Resumeer] Cleared BusyTeX package cache.");
+    } catch (err) {
+      console.warn("[Resumeer] Failed to clear package cache:", err);
+    }
+    try {
+      if ("serviceWorker" in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+        console.info("[Resumeer] Unregistered", regs.length, "service worker(s).");
+      }
+    } catch (err) {
+      console.warn("[Resumeer] Failed to unregister service worker:", err);
+    }
+  }
+
+  function showFailure(message, log) {
+    statusEl.textContent = message;
+    statusEl.classList.add("error");
+
+    if (log) {
+      const pre = document.createElement("pre");
+      pre.className = "compile-log";
+      pre.textContent = log;
+      statusEl.after(pre);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "retry-actions";
+    const retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.textContent = "Clear cache & retry";
+    retryBtn.addEventListener("click", async () => {
+      try {
+        retryBtn.disabled = true;
+        retryBtn.textContent = "Clearing cache...";
+        await resetEngineState();
+        console.info("[Resumeer] Retrying compile after cache clear.");
+        compileBtn.click();
+      } catch (err) {
+        console.error("[Resumeer] Retry failed:", err);
+        showFailure("Retry failed: " + err.message);
+      }
+    });
+    actions.appendChild(retryBtn);
+    (document.querySelector(".compile-log") || statusEl).after(actions);
+  }
+
   compileBtn.addEventListener("click", async () => {
     compileBtn.disabled = true;
+    clearExtraStatusElements();
     statusEl.hidden = false;
     statusEl.textContent = "Loading LaTeX engine (first time only, then cached)...";
     previewWrap.hidden = true;
@@ -300,12 +367,7 @@ async function init() {
       texOutput.textContent = result.texSource;
 
       if (!result.success || !result.pdf) {
-        statusEl.textContent = "Compilation failed. See log below.";
-        statusEl.classList.add("error");
-        const pre = document.createElement("pre");
-        pre.className = "compile-log";
-        pre.textContent = result.log || "(no log)";
-        statusEl.after(pre);
+        showFailure("Compilation failed. See log below.", result.log || "(no log)");
         return;
       }
 
@@ -318,8 +380,7 @@ async function init() {
       downloadLink.download = `resume_vikramanantha_${hash}.pdf`;
       previewWrap.hidden = false;
     } catch (err) {
-      statusEl.textContent = "Error: " + err.message;
-      statusEl.classList.add("error");
+      showFailure("Error: " + err.message);
     } finally {
       compileBtn.disabled = false;
     }

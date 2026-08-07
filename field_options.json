@@ -183,5 +183,89 @@
   ],
   "Publications > #1 > bullet 0": [
     "V. Anantha, arXiv:2209.03489, 2022"
+  ],
+  "Education > #1 > Organization": [
+    "Lexington High School"
+  ],
+  "Education > #1 > Dates": [
+    "Sept. 2020 -- Jun. 2024"
+  ],
+  "Education > #1 > Title / Degree": [
+    ""
+  ],
+  "Education > #1 > Location / Detail": [
+    ""
+  ],
+  "Education > #1 > bullet 0": [
+    "4.00 GPA • 36/36 ACT score • 5/5 on AP Computer Science A, AP Calculus BC, AP Physics C, AP Chem"
+  ],
+  "Industry Experience > #5 > Organization": [
+    "Quantum-Enhanced ML Algorithm to Detect Alzheimer's"
+  ],
+  "Industry Experience > #5 > Dates": [
+    "Oct. 2021 -- May 2022"
+  ],
+  "Industry Experience > #5 > Title / Degree": [
+    "Project Creator"
+  ],
+  "Industry Experience > #5 > Location / Detail": [
+    ""
+  ],
+  "Industry Experience > #5 > bullet 0": [
+    "Developed Quantum Algorithm to diagnose Alzheimer's Disease in patient with $>$85\\% accuracy"
+  ],
+  "Industry Experience > #5 > bullet 1": [
+    "Presented and won at MSEF Regionals and States 2022"
+  ],
+  "Industry Experience > #6 > Organization": [
+    "My Automated Communication Companion"
+  ],
+  "Industry Experience > #6 > Dates": [
+    "Feb. 2019 -- Sept. 2019"
+  ],
+  "Industry Experience > #6 > Title / Degree": [
+    "Project Creator"
+  ],
+  "Industry Experience > #6 > Location / Detail": [
+    ""
+  ],
+  "Industry Experience > #6 > bullet 0": [
+    "Built smart-hat using object detection and speech recognition to help non-verbal autistic people learn to speak"
+  ],
+  "Industry Experience > #6 > bullet 1": [
+    "Won awards at Invention Convention Worldwide, Young Inventors Program, and MSEF States 2019"
+  ],
+  "Research Experience > #3 > Organization": [
+    "Massachusetts Institute of Technology, MetaConscious Group"
+  ],
+  "Research Experience > #3 > Dates": [
+    "Jul. 2022 -- Aug. 2022"
+  ],
+  "Research Experience > #3 > bullet 0": [
+    "Created a Reinforcement Learning agent to mimic primates when they learn under a changing environment"
+  ],
+  "Selected Honors \\& Awards > #3 > Title": [
+    "\\textbf{Mass. Science & Engineering Fair (MSEF)}, \\emph{Outstanding AI Project Winner}"
+  ],
+  "Selected Honors \\& Awards > #3 > Dates": [
+    "Mar. & May 2022"
+  ],
+  "Selected Honors \\& Awards > #4 > Title": [
+    "\\textbf{American Invitational Mathematics Exam (AIME)}, \\emph{2 Time Qualifier}"
+  ],
+  "Selected Honors \\& Awards > #4 > Dates": [
+    "Mar. 2021 \\& Feb. 2022"
+  ],
+  "Selected Honors \\& Awards > #5 > Title": [
+    "\\textbf{USA Coding Olympiad (USACO)}, \\emph{Silver Division}"
+  ],
+  "Selected Honors \\& Awards > #5 > Dates": [
+    "Dec. 2019"
+  ],
+  "Selected Honors \\& Awards > #6 > Title": [
+    "\\textbf{Invention Convention Worldwide (ICW)}, \\emph{UTC Best in Show: Most Innovative Project}"
+  ],
+  "Selected Honors \\& Awards > #6 > Dates": [
+    "May 2019"
   ]
 }

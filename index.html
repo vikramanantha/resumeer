@@ -178,6 +178,28 @@
             white-space: pre-wrap;
         }
 
+        .retry-actions {
+            margin-top: 10px;
+        }
+        .retry-actions button {
+            background: none;
+            border: 1px solid var(--color-main);
+            color: var(--color-main);
+            border-radius: 4px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .retry-actions button:hover:not(:disabled) {
+            background-color: var(--color-main);
+            color: white;
+        }
+        .retry-actions button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         #preview-wrap { margin-top: 16px; }
         #preview-frame {
             width: 100%;

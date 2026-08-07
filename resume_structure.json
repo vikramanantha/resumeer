@@ -35,6 +35,27 @@
             }
           ],
           "enabled": true
+        },
+        {
+          "args": [
+            "Lexington High School",
+            "Sept. 2020 -- Jun. 2024",
+            "",
+            ""
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "4.00 GPA • 36/36 ACT score • 5/5 on AP Computer Science A, AP Calculus BC, AP Physics C, AP Chem",
+              "enabled": true
+            }
+          ],
+          "enabled": true
         }
       ],
       "raw_text": ""
@@ -168,6 +189,56 @@
             }
           ],
           "enabled": true
+        },
+        {
+          "args": [
+            "Quantum-Enhanced ML Algorithm to Detect Alzheimer's",
+            "Oct. 2021 -- May 2022",
+            "Project Creator",
+            ""
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Developed Quantum Algorithm to diagnose Alzheimer's Disease in patient with $>$85\\% accuracy",
+              "enabled": true
+            },
+            {
+              "text": "Presented and won at MSEF Regionals and States 2022",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "My Automated Communication Companion",
+            "Feb. 2019 -- Sept. 2019",
+            "Project Creator",
+            ""
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Built smart-hat using object detection and speech recognition to help non-verbal autistic people learn to speak",
+              "enabled": true
+            },
+            {
+              "text": "Won awards at Invention Convention Worldwide, Young Inventors Program, and MSEF States 2019",
+              "enabled": true
+            }
+          ],
+          "enabled": true
         }
       ],
       "raw_text": ""
@@ -235,6 +306,23 @@
             }
           ],
           "enabled": true
+        },
+        {
+          "args": [
+            "Massachusetts Institute of Technology, MetaConscious Group",
+            "Jul. 2022 -- Aug. 2022"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates"
+          ],
+          "bullets": [
+            {
+              "text": "Created a Reinforcement Learning agent to mimic primates when they learn under a changing environment",
+              "enabled": true
+            }
+          ],
+          "enabled": true
         }
       ],
       "raw_text": ""
@@ -265,6 +353,42 @@
         },
         {
           "args": [
+            "\\textbf{Diamond Challenge Business Competition}, \\emph{1st Place Winner for HELM Learning}",
+            "Mar. 2023"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Kurt Giessler Foundation}, \\emph{Prize for Achievement for HELM Learning (\\$750 grant money)}",
+            "Oct. 2022"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Mass. Science \\& Engineering Fair (MSEF)}, \\emph{Outstanding AI Project Winner}",
+            "Mar. \\& May 2022"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
             "\\textbf{American Invitational Mathematics Exam (AIME)}, \\emph{2 Time Qualifier}",
             "Mar. 2021 \\& Feb. 2022"
           ],
@@ -279,6 +403,18 @@
           "args": [
             "\\textbf{USA Coding Olympiad (USACO)}, \\emph{Silver Division}",
             "Dec. 2019"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
+        {
+          "args": [
+            "\\textbf{Invention Convention Worldwide (ICW)}, \\emph{UTC Best in Show: Most Innovative Project}",
+            "May 2019"
           ],
           "field_names": [
             "Title",
