@@ -190,31 +190,6 @@
             }
           ],
           "enabled": true
-        },
-        {
-          "args": [
-            "Quantum-Enhanced ML Algorithm to Detect Alzheimer's",
-            "Oct. 2021 -- May 2022",
-            "Project Creator",
-            ""
-          ],
-          "field_names": [
-            "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
-          ],
-          "bullets": [
-            {
-              "text": "Developed Quantum Algorithm to diagnose Alzheimer's Disease in patient with $>$85\\% accuracy",
-              "enabled": true
-            },
-            {
-              "text": "Presented and won at MSEF Regionals and States 2022",
-              "enabled": true
-            }
-          ],
-          "enabled": true
         }
       ],
       "raw_text": "",
@@ -270,6 +245,31 @@
             },
             {
               "text": "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "Quantum-Enhanced ML Algorithm to Detect Alzheimer's",
+            "Oct. 2021 -- May 2022",
+            "Project Creator",
+            ""
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Developed Quantum Algorithm to diagnose Alzheimer's Disease in patient with $>$85\\% accuracy",
+              "enabled": true
+            },
+            {
+              "text": "Presented and won at MSEF Regionals and States 2022",
               "enabled": true
             }
           ],
