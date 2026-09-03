@@ -53,10 +53,10 @@
     "Ann Arbor, MI"
   ],
   "Industry Experience > #1 > bullet 0": [
-    "Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs"
+    "Benchmarked 3DGS models like Gaussian Grouping, LangSplat, and SAM against real Mcity/Ford camera and lidar data"
   ],
   "Industry Experience > #1 > bullet 1": [
-    "Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers"
+    "Delivered 3DGS pipeline of UofM's Mcity models for production AV training/simulation data, managing a team of 3 engineers"
   ],
   "Industry Experience > #2 > Organization": [
     "Stellantis"
@@ -89,10 +89,10 @@
     "Newton, MA"
   ],
   "Industry Experience > #3 > bullet 0": [
-    "Fine-tuned Wav2Vec ASR on aphasia phonemes, achieving 4x lower false negative rate than Google's"
+    "Fine-tuned self-supervised Wav2Vec2 foundation model on aphasia speech, 4x lower false negatives than Google ASR"
   ],
   "Industry Experience > #3 > bullet 1": [
-    "Built task visualizer and LLM grammar detector to support stroke patient speech therapy"
+    "Built LLM grammar detector and clinician visualizer, productionizing the model for clinical use"
   ],
   "Industry Experience > #4 > Organization": [
     "HELM Learning"
@@ -119,10 +119,11 @@
     "Aug. 2024 -- Present"
   ],
   "Research Experience > #0 > bullet 0": [
-    "Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use"
+    "Built real-time 3D segmentation (Gaussian Splatting, SAM-2, Grounding DINO, ORB-SLAM) via ROS2 for safe robotic arm movement"
   ],
   "Research Experience > #0 > bullet 1": [
-    "Developing Transformer-based VLA models for generalist robot policies across diverse tasks"
+    "Developing Transformer-based VLA models for generalist robot policies across diverse tasks",
+    "Building feed-forward network decoding SDFs from ViT latents for millisecond 3D reconstruction"
   ],
   "Research Experience > #1 > Organization": [
     "Columbia University, Center for Smart Streetscapes"
@@ -143,10 +144,10 @@
     "Jun. 2023 -- Sep. 2023"
   ],
   "Research Experience > #2 > bullet 0": [
-    "Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication"
+    "Designed YOLOv8 vision-based 2FA verifying Auton. Vehicles headlight signals, securing V2I comms vs. spoofing"
   ],
   "Technical Skills > content": [
-    " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
+    " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting (3DGS), LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
   ],
   "Selected Honors \\& Awards > #0 > Title": [
     "\\textbf{Immerse The Bay Hackathon, Stanford University}, \\emph{1st Place Winner}"
@@ -369,5 +370,83 @@
   ],
   "Photography Experience > #3 > bullet 1": [
     "Lead meetings for development and critiques, proofed and re-edited for aesthetic coherence"
+  ],
+  "Publications \\& Academic Service > #0 > Title": [
+    "\\textbf{CVPR Workshop for Autonomous Driving (WAD)}, \\emph{Peer Reviewer}"
+  ],
+  "Publications \\& Academic Service > #0 > Dates": [
+    "2026"
+  ],
+  "Publications \\& Academic Service > #1 > Title": [
+    "\\textbf{Digital Twin for Pedestrian Safety Warning at a Single Urban Traffic Intersection}"
+  ],
+  "Publications \\& Academic Service > #1 > Dates": [
+    "2024"
+  ],
+  "Publications \\& Academic Service > #1 > bullet 0": [
+    "V. Anantha, et al., 2024 IEEE Intelligent Vehicles Symposium (IV), pp. 2640-2645, doi: 10.1109/IV55156.2024.10588544"
+  ],
+  "Publications \\& Academic Service > #2 > Title": [
+    "\\textbf{Peer to Peer Learning Platform Optimized With Machine Learning}"
+  ],
+  "Publications \\& Academic Service > #2 > Dates": [
+    "2022"
+  ],
+  "Publications \\& Academic Service > #2 > bullet 0": [
+    "V. Anantha, arXiv:2209.03489, 2022"
+  ],
+  "Projects > #0 > Organization": [
+    "Eous AR-Car"
+  ],
+  "Projects > #0 > Dates": [
+    "Nov. 2025"
+  ],
+  "Projects > #0 > Title / Degree": [
+    "Project Creator"
+  ],
+  "Projects > #0 > Location / Detail": [
+    ""
+  ],
+  "Projects > #0 > bullet 0": [
+    "Built RC car remotely controlled via AR glasses, using gesture recognition to send commands through a Raspberry Pi and Arduino microcontroller"
+  ],
+  "Projects > #0 > bullet 1": [
+    "Integrated live video feed and ChatGPT voice assistant into AR display; won 1st place on XREAL track at Stanford's Immerse the Bay Hackathon"
+  ],
+  "Projects > #1 > Organization": [
+    "HELM Learning"
+  ],
+  "Projects > #1 > Dates": [
+    "Apr. 2020 -- May 2024"
+  ],
+  "Projects > #1 > Title / Degree": [
+    "Co-Founder, Instructor, Developer"
+  ],
+  "Projects > #1 > Location / Detail": [
+    "Lexington, MA"
+  ],
+  "Projects > #1 > bullet 0": [
+    "Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries"
+  ],
+  "Projects > #1 > bullet 1": [
+    "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes"
+  ],
+  "Projects > #2 > Organization": [
+    "My Automated Communication Companion"
+  ],
+  "Projects > #2 > Dates": [
+    "Feb. 2019 -- Sept. 2019"
+  ],
+  "Projects > #2 > Title / Degree": [
+    "Project Creator"
+  ],
+  "Projects > #2 > Location / Detail": [
+    ""
+  ],
+  "Projects > #2 > bullet 0": [
+    "Built smart-hat using object detection and speech recognition to help non-verbal autistic people learn to speak"
+  ],
+  "Projects > #2 > bullet 1": [
+    "Won awards at Invention Convention Worldwide, Young Inventors Program, and MSEF States 2019"
   ]
 }

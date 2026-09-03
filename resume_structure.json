@@ -168,31 +168,6 @@
         },
         {
           "args": [
-            "HELM Learning",
-            "Apr. 2020 -- May 2024",
-            "Co-Founder, Instructor, Developer",
-            "Lexington, MA"
-          ],
-          "field_names": [
-            "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
-          ],
-          "bullets": [
-            {
-              "text": "Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries",
-              "enabled": true
-            },
-            {
-              "text": "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes",
-              "enabled": true
-            }
-          ],
-          "enabled": true
-        },
-        {
-          "args": [
             "KTBYTE",
             "Apr. 2018 -- May 2024",
             "Instructor",
@@ -236,6 +211,65 @@
             },
             {
               "text": "Presented and won at MSEF Regionals and States 2022",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "raw_text": "",
+      "enabled": true
+    },
+    {
+      "title": "Projects",
+      "kind": "heading-list",
+      "command": "resumeSubheading",
+      "entries": [
+        {
+          "args": [
+            "Eous AR-Car",
+            "Nov. 2025",
+            "Project Creator",
+            ""
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Built RC car remotely controlled via AR glasses, using gesture recognition to send commands through a Raspberry Pi and Arduino microcontroller",
+              "enabled": true
+            },
+            {
+              "text": "Integrated live video feed and ChatGPT voice assistant into AR display; won 1st place on XREAL track at Stanford's Immerse the Bay Hackathon",
+              "enabled": true
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "args": [
+            "HELM Learning",
+            "Apr. 2020 -- May 2024",
+            "Co-Founder, Instructor, Developer",
+            "Lexington, MA"
+          ],
+          "field_names": [
+            "Organization",
+            "Dates",
+            "Title / Degree",
+            "Location / Detail"
+          ],
+          "bullets": [
+            {
+              "text": "Founded peer-to-peer learning platform with 4,200+ students and 90+ teachers across 10+ countries",
+              "enabled": true
+            },
+            {
+              "text": "Built full-stack platform on Flask, AWS, and MySQL with MLP recommendation for 90+ classes",
               "enabled": true
             }
           ],
@@ -594,10 +628,22 @@
       "enabled": true
     },
     {
-      "title": "Publications",
+      "title": "Publications \\& Academic Service",
       "kind": "heading-list",
       "command": "resumeProjectHeading",
       "entries": [
+        {
+          "args": [
+            "\\textbf{CVPR Workshop for Autonomous Driving (WAD)}, \\emph{Peer Reviewer}",
+            "2026"
+          ],
+          "field_names": [
+            "Title",
+            "Dates"
+          ],
+          "bullets": [],
+          "enabled": true
+        },
         {
           "args": [
             "\\textbf{Digital Twin for Pedestrian Safety Warning at a Single Urban Traffic Intersection}",
