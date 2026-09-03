@@ -185,7 +185,7 @@
               "enabled": true
             },
             {
-              "text": "Robotics class lead instructor, mentored students to create inventions w/ Arduino + Raspberry Pi; 15+ students won awards nationally",
+              "text": "Robotics lead instructor, mentored students to create inventions w/ Arduino + Raspberry Pi; 15+ students won awards nationally",
               "enabled": true
             }
           ],
@@ -254,7 +254,7 @@
           "args": [
             "Quantum-Enhanced ML Algorithm to Detect Alzheimer's",
             "Oct. 2021 -- May 2022",
-            "Project Creator",
+            "Project Creator (co-created)",
             ""
           ],
           "field_names": [
@@ -265,11 +265,11 @@
           ],
           "bullets": [
             {
-              "text": "Developed Quantum Algorithm to diagnose Alzheimer's Disease in patient with $>$85\\% accuracy",
+              "text": "Co-built MLP/CNN ensemble using Quantum Preprocessing to diagnose Alzheimer's with over 85\\% accuracy",
               "enabled": true
             },
             {
-              "text": "Presented and won at MSEF Regionals and States 2022",
+              "text": "Validated by neuroscience experts at MIT and Harvard; won MSEF Regionals and States 2022",
               "enabled": true
             }
           ],
