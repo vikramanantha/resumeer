@@ -5,8 +5,10 @@ options list containing just the current value. Edit the resulting JSON
 by hand to add alternatives (e.g. different graduation dates) -- the app
 will then show them as dropdown choices.
 
-Re-running this will NOT clobber options you've already added for fields
-that still exist; it only adds keys that are missing.
+Re-running this will NOT clobber options you've deliberately curated
+(any key with more than one choice); it only adds missing keys and
+fixes single-option keys that have drifted from the current .tex (e.g.
+after reordering/moving entries between sections).
 """
 
 from pathlib import Path
@@ -20,35 +22,52 @@ OPTIONS_PATH = Path(__file__).parent / "field_options.json"
 
 def seed_missing(resume: Resume, options: dict[str, list[str]]) -> int:
     """Add an options entry (containing just the current value) for any
-    field/bullet that isn't already in `options`. Mutates `options` in
-    place. Returns the number of keys added."""
-    added = 0
+    field/bullet that isn't already in `options`, and fix single-option
+    entries that have drifted out of sync with the current value.
+
+    Keys are positional ("Section > #entryIndex > field"), so moving or
+    reordering entries (e.g. between sections) shifts everyone after
+    them onto different keys -- a key that used to belong to one entry
+    can silently end up describing a different one. A key with a single
+    option is assumed to be auto-seeded (not deliberately curated), so
+    if it no longer matches the current value it's just replaced. A key
+    with multiple options is assumed curated (e.g. graduation date
+    alternatives) and is left alone except for appending the current
+    value if missing.
+
+    Mutates `options` in place. Returns the number of keys added or
+    corrected."""
+    changed = 0
+
+    def sync(key: str, current_value: str) -> None:
+        nonlocal changed
+        if key not in options:
+            options[key] = [current_value]
+            changed += 1
+        elif current_value not in options[key]:
+            if len(options[key]) == 1:
+                options[key] = [current_value]
+            else:
+                options[key].append(current_value)
+            changed += 1
+
     for section in resume.sections:
         if section.kind == "raw":
-            key = raw_key(section.title)
-            if key not in options:
-                options[key] = [section.raw_text]
-                added += 1
+            sync(raw_key(section.title), section.raw_text)
             continue
 
         for e_idx, entry in enumerate(section.entries):
             for f_idx, fname in enumerate(entry.field_names):
-                key = field_key(section.title, e_idx, fname)
-                if key not in options:
-                    options[key] = [entry.args[f_idx]]
-                    added += 1
+                sync(field_key(section.title, e_idx, fname), entry.args[f_idx])
             for b_idx, bullet in enumerate(entry.bullets):
-                key = bullet_key(section.title, e_idx, b_idx)
-                if key not in options:
-                    options[key] = [bullet.text]
-                    added += 1
-    return added
+                sync(bullet_key(section.title, e_idx, b_idx), bullet.text)
+    return changed
 
 
 def main() -> None:
     resume = parse_resume(SOURCE)
     options = load_options(OPTIONS_PATH)
-    added = seed_missing(resume, options)
+    changed = seed_missing(resume, options)
 
     # Seed the example alternatives mentioned for graduation date.
     grad_key = field_key("Education", 0, "Dates")
@@ -60,7 +79,7 @@ def main() -> None:
         ]
 
     save_options(OPTIONS_PATH, options)
-    print(f"{OPTIONS_PATH}: {len(options)} fields total ({added} newly added)")
+    print(f"{OPTIONS_PATH}: {len(options)} fields total ({changed} added or corrected)")
 
 
 if __name__ == "__main__":
