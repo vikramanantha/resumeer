@@ -39,12 +39,18 @@ def seed_missing(resume: Resume, options: dict[str, list[str]]) -> int:
     corrected."""
     changed = 0
 
+    def option_value(opt) -> str:
+        # An option is either a plain string, or {"label": ..., "value": ...}
+        # for a labeled choice (shown with its label in the dropdown when a
+        # field has multiple options) -- see options_store.py.
+        return opt["value"] if isinstance(opt, dict) else opt
+
     def sync(key: str, current_value: str) -> None:
         nonlocal changed
         if key not in options:
             options[key] = [current_value]
             changed += 1
-        elif current_value not in options[key]:
+        elif current_value not in (option_value(o) for o in options[key]):
             if len(options[key]) == 1:
                 options[key] = [current_value]
             else:

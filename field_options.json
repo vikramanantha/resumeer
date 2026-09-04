@@ -35,10 +35,10 @@
     "Menlo Park, CA"
   ],
   "Industry Experience > #0 > bullet 0": [
-    "Created a novel prototype of Server Side Rendering for React Native mobile development on Meta's family of apps"
+    "Architected first Server-Side Rendering pipeline for React Native at Meta, cutting client load"
   ],
   "Industry Experience > #0 > bullet 1": [
-    "Reduced bundle size by 30\\%, reached out to teams to measure impact and collect feedback on prototype"
+    "Reduced client bundle size 30\\% and presented findings org-wide to drive RSC adoption across apps"
   ],
   "Industry Experience > #1 > Organization": [
     "Capoom"
@@ -53,10 +53,17 @@
     "Ann Arbor, MI"
   ],
   "Industry Experience > #1 > bullet 0": [
-    "Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs"
+    {
+      "label": "General default",
+      "value": "Benchmarked Gaussian Grouping, LangSplat, SAM against real Mcity/Ford sensor data for AV training"
+    },
+    {
+      "label": "Nuro data annotation",
+      "value": "Benchmarked Gaussian Grouping, LangSplat, SAM against Mcity/Ford sensor data for AV perception"
+    }
   ],
   "Industry Experience > #1 > bullet 1": [
-    "Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers"
+    "Delivered segmentation pipeline to production while leading a team of 3 student engineers"
   ],
   "Industry Experience > #2 > Organization": [
     "Stellantis"
@@ -71,10 +78,17 @@
     "Auburn Hills, MI"
   ],
   "Industry Experience > #2 > bullet 0": [
-    "Deployed CAPL script to analyze CAN-bus signals, identifying a 10\\% fault rate for ADAS teams"
+    "Engineered CAPL script to analyze CAN-bus signals, surfacing a 10\\% fault rate for ADAS teams"
   ],
   "Industry Experience > #2 > bullet 1": [
-    "Designed MATLAB Simulink model to control CAN-bus signals, quantifying self-driving behavior"
+    {
+      "label": "General default",
+      "value": "Built MATLAB Simulink model to validate Level 2 autonomy CAN-bus behavior for ADAS integration"
+    },
+    {
+      "label": "Waymo validation infra",
+      "value": "Built Simulink regression model to validate CAN-bus behavior across Level 2 autonomy test cases"
+    }
   ],
   "Industry Experience > #3 > Organization": [
     "Constant Therapy Health"
@@ -92,7 +106,14 @@
     "Fine-tuned Wav2Vec ASR on aphasia phonemes, achieving 4x lower false negative rate than Google's"
   ],
   "Industry Experience > #3 > bullet 1": [
-    "Built task visualizer and LLM grammar detector to support stroke patient speech therapy"
+    {
+      "label": "General default",
+      "value": "Built task visualizer and LLM grammar detector to support stroke patient speech therapy"
+    },
+    {
+      "label": "Microsoft prompt engineering",
+      "value": "Built LLM-based grammar detection system, applying prompt engineering to patient speech analysis"
+    }
   ],
   "Industry Experience > #4 > Organization": [
     "KTBYTE"
@@ -119,11 +140,12 @@
     "Aug. 2024 -- Present"
   ],
   "Research Experience > #0 > bullet 0": [
-    "Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use"
+    "Built real-time 3D scene pipeline (Gaussian Splat, SAM-2, Grounding DINO) on ROS2 for Fetch arm"
   ],
   "Research Experience > #0 > bullet 1": [
     "Developing Transformer-based VLA models for generalist robot policies across diverse tasks",
-    "Building feed-forward network decoding SDFs from ViT latents for millisecond 3D reconstruction"
+    "Building feed-forward network decoding SDFs from ViT latents for millisecond 3D reconstruction",
+    "Building feed-forward SDF network for sub-second, collision-aware 3D scene queries for VLAs"
   ],
   "Research Experience > #1 > Organization": [
     "Columbia University, Center for Smart Streetscapes"
@@ -132,7 +154,7 @@
     "May 2023 -- Feb. 2024"
   ],
   "Research Experience > #1 > bullet 0": [
-    "Developed CV + MQTT app to warn pedestrians of collisions; co-authored 2024 IEEE IV Symposium paper"
+    "Pivoted from GPS to camera-based localization after field failure; co-authored IEEE IV paper"
   ],
   "Research Experience > #1 > bullet 1": [
     "Optimized alert pipeline to $<$1.5s latency, meeting human reaction time to prevent accidents"
@@ -147,7 +169,7 @@
     "Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication"
   ],
   "Technical Skills > content": [
-    " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
+    " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C++, C, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\\n     \\textbf{Frameworks \\& Tools}{: ROS/ROS2, Linux, AWS, Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8, SAM-2, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------"
   ],
   "Selected Honors \\& Awards > #0 > Title": [
     "\\textbf{Immerse The Bay Hackathon, Stanford University}, \\emph{1st Place Winner}"
@@ -408,10 +430,10 @@
     ""
   ],
   "Projects > #0 > bullet 0": [
-    "Engineered real-time system linking AR glasses, phone, and Raspberry Pi robot via Unity HTTP server"
+    "Built AR-glasses assistant enabling gesture-based robot control and live video/audio streaming"
   ],
   "Projects > #0 > bullet 1": [
-    "Solved thread-safe concurrency in Unity and built Python backend for video encoding and transcription"
+    "Engineered thread-safe Unity HTTP server and Python backend for video encoding, transcription"
   ],
   "Projects > #1 > Organization": [
     "HELM Learning"

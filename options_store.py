@@ -4,7 +4,14 @@ Keys are stable, human-readable strings like:
     "Education > #0 > Dates"
     "Industry Experience > #1 > bullet 0"
 so the JSON file stays easy to hand-edit -- add more alternatives for any
-field by just appending strings to its list.
+field by just appending to its list.
+
+Each option in a list is either a plain string, or a labeled choice:
+    {"label": "Nuro data annotation", "value": "Benchmarked ..."}
+The label is only shown (prefixed, bold) in the dropdown when a field has
+more than one option -- the point is to make otherwise-similar variants
+(e.g. company-tailored bullet rewrites) distinguishable at a glance. The
+label never appears in the compiled resume; only "value" is used there.
 """
 
 from __future__ import annotations

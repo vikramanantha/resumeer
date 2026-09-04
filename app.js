@@ -38,10 +38,28 @@ function addLocalOption(key, value) {
     saveLocalOptions();
   }
 }
+// An option is either a plain string, or {label, value} for a labeled
+// choice (see options_store.py's docstring). Labels are only ever shown
+// in the dropdown when a field has more than one distinct option.
+function normalizeOption(opt) {
+  if (opt && typeof opt === "object" && "value" in opt) {
+    return { label: opt.label || null, value: opt.value };
+  }
+  return { label: null, value: opt };
+}
+
 function optionsFor(key, currentValue) {
-  const shipped = baseOptions[key] || [];
-  const local = localOptions[key] || [];
-  return Array.from(new Set([...shipped, ...local, currentValue]));
+  const shipped = (baseOptions[key] || []).map(normalizeOption);
+  const local = (localOptions[key] || []).map(normalizeOption);
+  const byValue = new Map([...shipped, ...local].map((c) => [c.value, c]));
+  if (!byValue.has(currentValue)) {
+    byValue.set(currentValue, { label: null, value: currentValue });
+  }
+  return Array.from(byValue.values());
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // Small LaTeX-subset -> HTML converter, purely for display in the dropdown
@@ -137,7 +155,6 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   trigger.className = "tex-select-trigger";
   const currentEl = document.createElement("div");
   currentEl.className = "tex-select-current";
-  currentEl.innerHTML = formatChoiceHtml(currentValue);
   const caret = document.createElement("i");
   caret.className = "fas fa-chevron-down tex-select-caret";
   trigger.appendChild(currentEl);
@@ -161,22 +178,41 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   newRow.appendChild(newInput);
   newRow.appendChild(addBtn);
 
+  // A choice's label is only shown when the field has more than one
+  // option -- with just one choice there's nothing to distinguish.
+  function renderChoiceHtml(choice, showLabels) {
+    const valueHtml = formatChoiceHtml(choice.value);
+    if (showLabels && choice.label) {
+      return `<span class="option-label">${escapeHtml(choice.label)}:</span> ${valueHtml}`;
+    }
+    return valueHtml;
+  }
+
+  function updateCurrentDisplay() {
+    const choices = optionsFor(key, currentValue);
+    const match = choices.find((c) => c.value === currentValue) || { label: null, value: currentValue };
+    currentEl.innerHTML = renderChoiceHtml(match, choices.length > 1);
+  }
+  updateCurrentDisplay();
+
   function selectValue(val) {
     currentValue = val;
-    currentEl.innerHTML = formatChoiceHtml(val);
+    updateCurrentDisplay();
     onChange(val);
   }
 
   function renderMenu() {
     menu.innerHTML = "";
-    for (const choice of optionsFor(key, currentValue)) {
+    const choices = optionsFor(key, currentValue);
+    const showLabels = choices.length > 1;
+    for (const choice of choices) {
       const opt = document.createElement("div");
       opt.className = "tex-select-option";
-      opt.innerHTML = formatChoiceHtml(choice);
-      if (choice === currentValue) opt.classList.add("selected");
+      opt.innerHTML = renderChoiceHtml(choice, showLabels);
+      if (choice.value === currentValue) opt.classList.add("selected");
       opt.addEventListener("click", () => {
         closeAllDropdowns();
-        selectValue(choice);
+        selectValue(choice.value);
       });
       menu.appendChild(opt);
     }

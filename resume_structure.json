@@ -81,11 +81,11 @@
           ],
           "bullets": [
             {
-              "text": "Created a novel prototype of Server Side Rendering for React Native mobile development on Meta's family of apps",
+              "text": "Architected first Server-Side Rendering pipeline for React Native at Meta, cutting client load",
               "enabled": true
             },
             {
-              "text": "Reduced bundle size by 30\\%, reached out to teams to measure impact and collect feedback on prototype",
+              "text": "Reduced client bundle size 30\\% and presented findings org-wide to drive RSC adoption across apps",
               "enabled": true
             }
           ],
@@ -106,11 +106,11 @@
           ],
           "bullets": [
             {
-              "text": "Architected Gaussian Splatting pipeline for 3D models of UofM's Mcity, cutting AV training data costs",
+              "text": "Benchmarked Gaussian Grouping, LangSplat, SAM against real Mcity/Ford sensor data for AV training",
               "enabled": true
             },
             {
-              "text": "Built hierarchical Gaussian Splat map visualization, managing a team of 3 student engineers",
+              "text": "Delivered segmentation pipeline to production while leading a team of 3 student engineers",
               "enabled": true
             }
           ],
@@ -131,11 +131,11 @@
           ],
           "bullets": [
             {
-              "text": "Deployed CAPL script to analyze CAN-bus signals, identifying a 10\\% fault rate for ADAS teams",
+              "text": "Engineered CAPL script to analyze CAN-bus signals, surfacing a 10\\% fault rate for ADAS teams",
               "enabled": true
             },
             {
-              "text": "Designed MATLAB Simulink model to control CAN-bus signals, quantifying self-driving behavior",
+              "text": "Built MATLAB Simulink model to validate Level 2 autonomy CAN-bus behavior for ADAS integration",
               "enabled": true
             }
           ],
@@ -215,11 +215,11 @@
           ],
           "bullets": [
             {
-              "text": "Engineered real-time system linking AR glasses, phone, and Raspberry Pi robot via Unity HTTP server",
+              "text": "Built AR-glasses assistant enabling gesture-based robot control and live video/audio streaming",
               "enabled": true
             },
             {
-              "text": "Solved thread-safe concurrency in Unity and built Python backend for video encoding and transcription",
+              "text": "Engineered thread-safe Unity HTTP server and Python backend for video encoding, transcription",
               "enabled": true
             }
           ],
@@ -320,11 +320,11 @@
           ],
           "bullets": [
             {
-              "text": "Built real-time 3D segmentation (Gaussian Splat, SAM-2, CLIP) via ROS2 for safe robotic arm use",
+              "text": "Built real-time 3D scene pipeline (Gaussian Splat, SAM-2, Grounding DINO) on ROS2 for Fetch arm",
               "enabled": true
             },
             {
-              "text": "Developing Transformer-based VLA models for generalist robot policies across diverse tasks",
+              "text": "Building feed-forward SDF network for sub-second, collision-aware 3D scene queries for VLAs",
               "enabled": true
             }
           ],
@@ -341,7 +341,7 @@
           ],
           "bullets": [
             {
-              "text": "Developed CV + MQTT app to warn pedestrians of collisions; co-authored 2024 IEEE IV Symposium paper",
+              "text": "Pivoted from GPS to camera-based localization after field failure; co-authored IEEE IV paper",
               "enabled": true
             },
             {
@@ -495,7 +495,7 @@
       "kind": "raw",
       "command": "",
       "entries": [],
-      "raw_text": " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C/C++, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\ \n     \\textbf{Frameworks \\& Tools}{: Robot Operating System (ROS \\& ROS2), Amazon Web Services (AWS), Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8 Object Detection, SAM-2 Segmentation, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------",
+      "raw_text": " \\begin{itemize}[leftmargin=0.15in, label={}]\n    \\small{\\item{\n     \\textbf{Programming Languages}{: Python, C++, C, Java, JavaScript, CAPL, ReactJS, Assembly, Bash, LaTeX} \\\\\n     \\textbf{Frameworks \\& Tools}{: ROS/ROS2, Linux, AWS, Vector CANalyzer, MATLAB/Simulink, OpenCV, TensorFlow/PyTorch, Git/GitHub, CUDA, Docker, Gaussian Splatting, LLMs, YOLOv8, SAM-2, SLAM}\n    }}\n \\end{itemize}\n\n%-----------HONORS & AWARDS-----------",
       "enabled": true
     },
     {
