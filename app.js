@@ -120,7 +120,10 @@ function texInlineToHtml(text) {
   return out;
 }
 
-function formatChoiceHtml(value, maxLen = 100) {
+// Menu rows wrap, and the collapsed trigger ellipsizes in CSS, so this cap
+// only exists to keep a very long raw-section blob from becoming a wall of
+// text -- resume bullets fit well under it and show in full.
+function formatChoiceHtml(value, maxLen = 300) {
   const raw = value.replace(/\n/g, " / ");
   const truncated = raw.length <= maxLen ? raw : raw.slice(0, maxLen - 3) + "...";
   return texInlineToHtml(truncated);
@@ -213,22 +216,18 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   newRow.appendChild(newInput);
   newRow.appendChild(addBtn);
 
-  // A choice's label is only shown when the field has more than one
-  // option -- with just one choice there's nothing to distinguish. When
-  // it *does* have multiple options, every one shows some label, falling
-  // back to "General" for choices that don't have a curated one.
-  function renderChoiceHtml(choice, showLabels) {
-    const valueHtml = formatChoiceHtml(choice.value);
-    if (showLabels) {
-      return `<span class="option-label">${escapeHtml(choice.label || "General")}:</span> ${valueHtml}`;
-    }
-    return valueHtml;
+  // Every choice always shows a label, falling back to "General" for ones
+  // without a curated label, so the tag is consistent across all fields
+  // rather than appearing only where variants happen to exist.
+  function renderChoiceHtml(choice) {
+    const label = escapeHtml(choice.label || "General");
+    return `<span class="option-label">${label}:</span> ${formatChoiceHtml(choice.value)}`;
   }
 
   function updateCurrentDisplay() {
     const choices = optionsFor(key, currentValue);
     const match = choices.find((c) => c.value === currentValue) || { label: null, value: currentValue };
-    currentEl.innerHTML = renderChoiceHtml(match, choices.length > 1);
+    currentEl.innerHTML = renderChoiceHtml(match);
   }
   updateCurrentDisplay();
 
@@ -240,12 +239,10 @@ function buildDropdown(labelText, currentValue, key, onChange) {
 
   function renderMenu() {
     menu.innerHTML = "";
-    const choices = optionsFor(key, currentValue);
-    const showLabels = choices.length > 1;
-    for (const choice of choices) {
+    for (const choice of optionsFor(key, currentValue)) {
       const opt = document.createElement("div");
       opt.className = "tex-select-option";
-      opt.innerHTML = renderChoiceHtml(choice, showLabels);
+      opt.innerHTML = renderChoiceHtml(choice);
       if (choice.value === currentValue) opt.classList.add("selected");
       opt.addEventListener("click", () => {
         closeAllDropdowns();
