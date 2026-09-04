@@ -136,6 +136,41 @@ function closeAllDropdowns() {
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".tex-select")) closeAllDropdowns();
 });
+// The menu is position:fixed (see positionMenu) so it isn't clipped by the
+// scrollable form panel, but that means it goes stale on scroll -- close it
+// on scroll. `capture: true` catches scrolling of the nested .form-panel
+// too, since a plain (non-window) scroll event doesn't bubble. Opening a
+// dropdown focuses it (tabIndex, for keyboard support), and focusing an
+// element not fully in view makes the browser auto-scroll it into place --
+// which fires a scroll event synchronously as part of that same click, and
+// would otherwise close the dropdown the instant it opens. Suppress scroll-
+// close briefly after opening to absorb that.
+let suppressScrollCloseUntil = 0;
+document.addEventListener(
+  "scroll",
+  () => {
+    if (Date.now() < suppressScrollCloseUntil) return;
+    closeAllDropdowns();
+  },
+  true
+);
+
+// Positions `menu` as position:fixed relative to `trigger`, flipping above
+// the trigger if there isn't enough room below in the viewport.
+function positionMenu(trigger, menu) {
+  const rect = trigger.getBoundingClientRect();
+  const maxMenuHeight = 240; // keep in sync with .tex-select-menu max-height
+  const spaceBelow = window.innerHeight - rect.bottom;
+  menu.style.left = `${rect.left}px`;
+  menu.style.width = `${rect.width}px`;
+  if (spaceBelow < maxMenuHeight && rect.top > spaceBelow) {
+    menu.style.top = "";
+    menu.style.bottom = `${window.innerHeight - rect.top + 2}px`;
+  } else {
+    menu.style.bottom = "";
+    menu.style.top = `${rect.bottom + 2}px`;
+  }
+}
 
 function buildDropdown(labelText, currentValue, key, onChange) {
   const wrap = document.createElement("div");
@@ -179,11 +214,13 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   newRow.appendChild(addBtn);
 
   // A choice's label is only shown when the field has more than one
-  // option -- with just one choice there's nothing to distinguish.
+  // option -- with just one choice there's nothing to distinguish. When
+  // it *does* have multiple options, every one shows some label, falling
+  // back to "General" for choices that don't have a curated one.
   function renderChoiceHtml(choice, showLabels) {
     const valueHtml = formatChoiceHtml(choice.value);
-    if (showLabels && choice.label) {
-      return `<span class="option-label">${escapeHtml(choice.label)}:</span> ${valueHtml}`;
+    if (showLabels) {
+      return `<span class="option-label">${escapeHtml(choice.label || "General")}:</span> ${valueHtml}`;
     }
     return valueHtml;
   }
@@ -231,8 +268,10 @@ function buildDropdown(labelText, currentValue, key, onChange) {
     if (menu.hidden) {
       closeAllDropdowns();
       renderMenu();
+      positionMenu(trigger, menu);
       menu.hidden = false;
       combo.classList.add("open");
+      suppressScrollCloseUntil = Date.now() + 150;
     } else {
       closeAllDropdowns();
     }

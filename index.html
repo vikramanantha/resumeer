@@ -178,11 +178,11 @@
         }
 
         .tex-select-menu {
-            position: absolute;
-            top: calc(100% + 2px);
-            left: 0;
-            right: 0;
-            z-index: 20;
+            /* position:fixed (left/top/width set by positionMenu() in
+               app.js) so the menu escapes the scrollable form panel's
+               clipping instead of being cut off inside it. */
+            position: fixed;
+            z-index: 2000;
             background: white;
             border: 1px solid #ccc;
             border-radius: 4px;
