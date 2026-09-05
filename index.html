@@ -20,6 +20,10 @@
             margin-top: 20px;
             align-items: flex-start;
             flex-wrap: wrap;
+            /* This is itself a flex item of <main>; without min-width:0 its
+               automatic minimum size is its min-content width, so long
+               unwrapped option text pushes it past the page container. */
+            min-width: 0;
         }
 
         .resumeer-container .form-panel,
@@ -95,6 +99,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            min-width: 0;
         }
         .resumeer-entry summary::-webkit-details-marker {
             display: none;
@@ -165,6 +170,11 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             flex: 1;
+            /* Without this, a flex item's automatic minimum size is its
+               min-content width -- i.e. the full un-wrapped text -- so it
+               refuses to shrink and forces every ancestor wider instead of
+               ellipsizing. */
+            min-width: 0;
         }
 
         .tex-select-caret {
@@ -245,7 +255,9 @@
             margin-bottom: 8px;
         }
         .bullet-row input[type="checkbox"] { margin-top: 10px; }
-        .bullet-row .field-row { flex: 1; margin-bottom: 0; }
+        /* min-width:0 so this flex item can shrink past its content's
+           min-content width instead of widening the whole panel. */
+        .bullet-row .field-row { flex: 1; margin-bottom: 0; min-width: 0; }
 
         #compile-btn {
             background-color: var(--color-main);
