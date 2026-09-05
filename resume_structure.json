@@ -170,7 +170,7 @@
           "args": [
             "KTBYTE",
             "Apr. 2018 -- May 2024",
-            "Instructor",
+            "Lead instructor, Web/Curriculum Developer",
             "Lexington, MA"
           ],
           "field_names": [
@@ -198,20 +198,16 @@
     {
       "title": "Projects",
       "kind": "heading-list",
-      "command": "resumeSubheading",
+      "command": "resumeResearchHeading",
       "entries": [
         {
           "args": [
             "Eous AR-Car",
-            "Nov. 2025",
-            "Project Creator",
-            ""
+            "Nov. 2025"
           ],
           "field_names": [
             "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
+            "Dates"
           ],
           "bullets": [
             {
@@ -228,15 +224,11 @@
         {
           "args": [
             "HELM Learning",
-            "Apr. 2020 -- May 2024",
-            "Co-Founder, Instructor, Developer",
-            "Lexington, MA"
+            "Apr. 2020 -- May 2024"
           ],
           "field_names": [
             "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
+            "Dates"
           ],
           "bullets": [
             {
@@ -253,15 +245,11 @@
         {
           "args": [
             "Quantum-Enhanced ML Algorithm to Detect Alzheimer's",
-            "Oct. 2021 -- May 2022",
-            "Project Creator (co-created)",
-            ""
+            "Oct. 2021 -- May 2022"
           ],
           "field_names": [
             "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
+            "Dates"
           ],
           "bullets": [
             {
@@ -278,15 +266,11 @@
         {
           "args": [
             "My Automated Communication Companion",
-            "Feb. 2019 -- Sept. 2019",
-            "Project Creator",
-            ""
+            "Feb. 2019 -- Sept. 2019"
           ],
           "field_names": [
             "Organization",
-            "Dates",
-            "Title / Degree",
-            "Location / Detail"
+            "Dates"
           ],
           "bullets": [
             {
