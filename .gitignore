@@ -1,5 +1,3 @@
-__pycache__/
-*.pyc
 .DS_Store
 
 # Monolithic file exceeds GitHub's 100MB limit; only the split

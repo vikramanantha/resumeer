@@ -1,59 +1,21 @@
 import { renderDocument } from "./resume-renderer.js";
+import { parseResume } from "./resume-parser.js";
 import { BusyTexRunner, PdfLatex, clearAllPackageCache } from "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/dist/index.js";
 
-const ADD_NEW = "__add_new__";
-const LOCAL_OPTIONS_KEY = "resumeer_local_options_v1";
+const TEX_SOURCE = "resume_full.tex";
 const BUSYTEX_BASE = new URL("busytex-assets/", import.meta.url).href.replace(/\/$/, "");
 
 let resumeData = null;
-let baseOptions = {};
-let localOptions = {};
 let runner = null;
 let pdflatex = null;
 
-function fieldKey(sectionTitle, entryIdx, fieldName) {
-  return `${sectionTitle} > #${entryIdx} > ${fieldName}`;
-}
-function bulletKey(sectionTitle, entryIdx, bulletIdx) {
-  return `${sectionTitle} > #${entryIdx} > bullet ${bulletIdx}`;
-}
-function rawKey(sectionTitle) {
-  return `${sectionTitle} > content`;
-}
-
-function loadLocalOptions() {
-  try {
-    return JSON.parse(localStorage.getItem(LOCAL_OPTIONS_KEY) || "{}");
-  } catch {
-    return {};
-  }
-}
-function saveLocalOptions() {
-  localStorage.setItem(LOCAL_OPTIONS_KEY, JSON.stringify(localOptions));
-}
-function addLocalOption(key, value) {
-  if (!localOptions[key]) localOptions[key] = [];
-  if (!localOptions[key].includes(value)) {
-    localOptions[key].push(value);
-    saveLocalOptions();
-  }
-}
-// An option is either a plain string, or {label, value} for a labeled
-// choice (see options_store.py's docstring). Labels are only ever shown
-// in the dropdown when a field has more than one distinct option.
-function normalizeOption(opt) {
-  if (opt && typeof opt === "object" && "value" in opt) {
-    return { label: opt.label || null, value: opt.value };
-  }
-  return { label: null, value: opt };
-}
-
-function optionsFor(key, currentValue) {
-  const shipped = (baseOptions[key] || []).map(normalizeOption);
-  const local = (localOptions[key] || []).map(normalizeOption);
-  const byValue = new Map([...shipped, ...local].map((c) => [c.value, c]));
-  if (!byValue.has(currentValue)) {
-    byValue.set(currentValue, { label: null, value: currentValue });
+// The value written in the .tex is the default choice; %ALT directives in the
+// .tex supply the alternatives. The default has no label, so it renders as
+// "General".
+function choicesFor(currentValue, alternatives = []) {
+  const byValue = new Map([[currentValue, { label: null, value: currentValue }]]);
+  for (const alt of alternatives) {
+    if (!byValue.has(alt.value)) byValue.set(alt.value, { label: alt.label || null, value: alt.value });
   }
   return Array.from(byValue.values());
 }
@@ -175,7 +137,9 @@ function positionMenu(trigger, menu) {
   }
 }
 
-function buildDropdown(labelText, currentValue, key, onChange) {
+function buildDropdown(labelText, currentValue, alternatives, onChange) {
+  const choices = choicesFor(currentValue, alternatives);
+
   const wrap = document.createElement("div");
   wrap.className = "field-row";
 
@@ -204,28 +168,15 @@ function buildDropdown(labelText, currentValue, key, onChange) {
   menu.hidden = true;
   combo.appendChild(menu);
 
-  const newRow = document.createElement("div");
-  newRow.className = "new-value-row";
-  newRow.hidden = true;
-  const newInput = document.createElement("input");
-  newInput.type = "text";
-  newInput.placeholder = `New value for '${labelText || "field"}'`;
-  const addBtn = document.createElement("button");
-  addBtn.type = "button";
-  addBtn.textContent = "Add";
-  newRow.appendChild(newInput);
-  newRow.appendChild(addBtn);
-
-  // Every choice always shows a label, falling back to "General" for ones
-  // without a curated label, so the tag is consistent across all fields
-  // rather than appearing only where variants happen to exist.
+  // Every choice always shows a label, falling back to "General" for the
+  // default (the value written in the .tex), so the tag is consistent
+  // across all fields rather than appearing only where variants exist.
   function renderChoiceHtml(choice) {
     const label = escapeHtml(choice.label || "General");
     return `<span class="option-label">${label}:</span> ${formatChoiceHtml(choice.value)}`;
   }
 
   function updateCurrentDisplay() {
-    const choices = optionsFor(key, currentValue);
     const match = choices.find((c) => c.value === currentValue) || { label: null, value: currentValue };
     currentEl.innerHTML = renderChoiceHtml(match);
   }
@@ -239,7 +190,7 @@ function buildDropdown(labelText, currentValue, key, onChange) {
 
   function renderMenu() {
     menu.innerHTML = "";
-    for (const choice of optionsFor(key, currentValue)) {
+    for (const choice of choices) {
       const opt = document.createElement("div");
       opt.className = "tex-select-option";
       opt.innerHTML = renderChoiceHtml(choice);
@@ -250,15 +201,6 @@ function buildDropdown(labelText, currentValue, key, onChange) {
       });
       menu.appendChild(opt);
     }
-    const addOpt = document.createElement("div");
-    addOpt.className = "tex-select-option tex-select-add-new";
-    addOpt.textContent = "+ Add new option...";
-    addOpt.addEventListener("click", () => {
-      closeAllDropdowns();
-      newRow.hidden = false;
-      newInput.focus();
-    });
-    menu.appendChild(addOpt);
   }
 
   trigger.addEventListener("click", () => {
@@ -283,17 +225,7 @@ function buildDropdown(labelText, currentValue, key, onChange) {
     }
   });
 
-  addBtn.addEventListener("click", () => {
-    const val = newInput.value.trim();
-    if (!val) return;
-    addLocalOption(key, val);
-    selectValue(val);
-    newRow.hidden = true;
-    newInput.value = "";
-  });
-
   wrap.appendChild(combo);
-  wrap.appendChild(newRow);
   return wrap;
 }
 
@@ -330,9 +262,8 @@ function buildForm(container) {
     sectionEl.appendChild(bodyWrap);
 
     if (section.kind === "raw") {
-      const key = rawKey(section.title);
       bodyWrap.appendChild(
-        buildDropdown("", section.raw_text, key, (val) => {
+        buildDropdown("", section.raw_text, [], (val) => {
           section.raw_text = val;
         })
       );
@@ -374,9 +305,8 @@ function buildForm(container) {
       fieldsWrap.hidden = !entry.enabled;
 
       entry.field_names.forEach((fname, fIdx) => {
-        const key = fieldKey(section.title, eIdx, fname);
         fieldsWrap.appendChild(
-          buildDropdown(fname, entry.args[fIdx], key, (val) => {
+          buildDropdown(fname, entry.args[fIdx], entry.field_options[fname] || [], (val) => {
             entry.args[fIdx] = val;
             if (fIdx === 0) titleSpan.innerHTML = formatChoiceHtml(val);
           })
@@ -394,8 +324,7 @@ function buildForm(container) {
         });
         row.appendChild(cb);
 
-        const key = bulletKey(section.title, eIdx, bIdx);
-        const dd = buildDropdown("", bullet.text, key, (val) => {
+        const dd = buildDropdown("", bullet.text, bullet.options || [], (val) => {
           bullet.text = val;
         });
         dd.classList.add("bullet-dropdown");
@@ -477,13 +406,12 @@ async function compileResume(onProgress) {
 }
 
 async function init() {
-  const [structureRes, optionsRes] = await Promise.all([
-    fetch("resume_structure.json"),
-    fetch("field_options.json"),
-  ]);
-  resumeData = await structureRes.json();
-  baseOptions = await optionsRes.json();
-  localOptions = loadLocalOptions();
+  // resume_full.tex is the single source of truth -- structure, content, and
+  // the %ALT alternatives all come from it, parsed here in the browser. There
+  // is nothing to regenerate: edit the .tex, reload the page.
+  const res = await fetch(TEX_SOURCE, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Could not load ${TEX_SOURCE} (HTTP ${res.status})`);
+  resumeData = parseResume(await res.text());
 
   buildForm(document.getElementById("resumeer-form"));
 
