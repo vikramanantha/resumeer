@@ -301,6 +301,36 @@
 
         details.resumeer-entry > summary::-webkit-details-marker { color: var(--color-main); }
 
+        .tex-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .tex-actions button {
+            flex: 1;
+            background: none;
+            border: 1px solid var(--color-main);
+            color: var(--color-main);
+            border-radius: 4px;
+            padding: 7px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .tex-actions button:hover:not(:disabled) {
+            background-color: var(--color-main);
+            color: white;
+        }
+        .tex-actions button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        #tex-status {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--color-main);
+            font-style: italic;
+        }
+        #tex-status[hidden] { display: none; }
+
         .tex-details { margin-top: 16px; }
         .tex-details summary { cursor: pointer; color: var(--color-main); font-weight: 600; }
         #tex-output {
@@ -337,6 +367,11 @@
 
                 <div class="preview-panel">
                     <button id="compile-btn">Render PDF</button>
+                    <div class="tex-actions">
+                        <button id="reload-tex-btn" type="button" title="Re-read resume_full.tex, keeping your current selections">Reload .tex</button>
+                        <button id="reset-selections-btn" type="button" title="Discard saved toggles and selections">Reset selections</button>
+                    </div>
+                    <div id="tex-status" hidden></div>
                     <div id="compile-status" hidden></div>
                     <div id="preview-wrap" hidden>
                         <iframe id="preview-frame" title="Resume PDF preview"></iframe>

@@ -1,6 +1,6 @@
 
 
-% JUL 2026
+% Sept 2026
 
 %-------------------------
 % Resume in Latex
@@ -114,11 +114,11 @@
   \resumeSubHeadingListStart
     \resumeSubheading
       {University of Michigan}{Aug. 2024 -- May 2028 (expected)}
-      {B.S. Computer Science \& Electrical Engineering}{3.94/4.00 GPA}
+      {B.S. Computer Science \& Electrical Engineering}{3.93/4.00 GPA}
       %ALT[Dates]{Dec 2027 grad}{Aug. 2024 -- Dec. 2027 (expected)}
       %ALT[Dates]{May 2027 grad}{Aug. 2024 -- May 2027 (expected)}
       \resumeItemListStart
-        \resumeItem{\textbf{Relevant coursework:} Logic Design, Differential Equations, Machine Learning, Computer Vision, Data Structures \& Algorithms, Digital Circuits, Computer Organization, Linear Algebra, Discrete Math}
+        \resumeItem{\textbf{Relevant coursework:} Logic Design, SLAM, Machine Learning, Computer Vision, Data Structures \& Algorithms, Operating Systems, Digital Circuits, Computer Organization, Linear Algebra, Discrete Math, Differential Equations}
         \resumeItem{\textbf{Clubs:} Head Photo Editor of the Michiganensian Yearbook, Active member of Tau Beta Pi Engineering Honors Society}
         \resumeItem{\textbf{Honors:} 1/6 recipients of 1931e Merit Scholarship for Engineering, 3-term James B. Angell Scholar, Tau Beta Pi Scholarship}
       \resumeItemListEnd
@@ -136,7 +136,7 @@
   \resumeSubHeadingListStart
 
     \resumeSubheading
-      {Meta}{May. 2026 -- Jul. 2026}
+      {Meta}{May 2026 -- Jul. 2026}
       {Software Eng. Intern}{Menlo Park, CA}
       \resumeItemListStart
         \resumeItem{Architected first Server-Side Rendering pipeline for React Native at Meta, cutting client load}
@@ -153,7 +153,7 @@
       \resumeItemListEnd
 
     \resumeSubheading
-      {Stellantis}{May 2025 -- Aug. 2025}
+      {Stellantis (F.K.A. Fiat-Chrysler Automotive)}{May 2025 -- Aug. 2025}
       {ADAS Functional Integration Eng. Intern}{Auburn Hills, MI}
       \resumeItemListStart
         \resumeItem{Engineered CAPL script to analyze CAN-bus signals, surfacing a 10\% fault rate for ADAS teams}
@@ -171,42 +171,44 @@
       \resumeItemListEnd
 
     \resumeSubheading
-      {KTBYTE}{Apr. 2018 -- May 2024}
-      {Lead instructor, Web/Curriculum Developer}{Lexington, MA}
+      {KTBYTE Computer Science Academy}{Apr. 2018 -- May 2024}
+      {Lead instructor, Web+Curriculum Developer}{Lexington, MA}
       \resumeItemListStart
         \resumeItem{Lead instructor \& curriculum developer of Python, Java, Arduino classes for 100+ students, ages 8-18}
-        \resumeItem{Robotics lead instructor, mentored students to create inventions w/ Arduino + Raspberry Pi; 15+ students won awards nationally}
+        \resumeItem{Robotics lead instructor, mentored students to create inventions w/ Arduino+Raspberry Pi; 15+ student awards nationally}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
 
 %-----------PROJECTS-----------
-\section{Projects}
+\section{Selected Projects}
   \resumeSubHeadingListStart
 
     \resumeResearchHeading
       {Eous AR-Car}{Nov. 2025}
       \resumeItemListStart
-        \resumeItem{Built AR-glasses assistant enabling gesture-based robot control and live video/audio streaming}
+        \resumeItem{Built AR-glasses assistant enabling gesture-based robot control and live video/audio streaming, 1st place at Hackathon}
         \resumeItem{Engineered thread-safe Unity HTTP server and Python backend for video encoding, transcription}
       \resumeItemListEnd
 
     \resumeResearchHeading
-      {HELM Learning}{Apr. 2020 -- May 2024}
+      {HELM Learning}{Apr. 2020 - Present}
       \resumeItemListStart
-        \resumeItem{Scaled Flask/AWS backend automating scheduling and emails for 4,200+ students across 10+ countries}
-        \resumeItem{Improved recommendation accuracy 30\% to 93\% across 6 ML model iterations; published, arXiv:2209.03489}
+        \resumeItem{Created Peer-to-peer free online learning platform for K-12 students; published, arXiv:2209.03489}
+        %ALT{SWE}{Founded \& architected full-stack Flask/AWS/MySQL platform for 4.2k+ students in 10+ countries}
+        \resumeItem{Scaled Flask/AWS/MySQL backend for 90+ classes, 4.2k+ students worldwide, course recom. algo w/ 93\% accuracy}
+        %ALT{SWE}{Iterated ML recommendation engine 30\%$\to$93\% accuracy across 6 versions; published, arXiv:2209.03489}
       \resumeItemListEnd
 
     \resumeResearchHeading
-      {Quantum-Enhanced ML Algorithm to Detect Alzheimer's}{Oct. 2021 -- May 2022}
+      {Quantum-Enhanced ML Algorithm to Detect Alzheimer's}{Oct. 2021 - May 2022}
       \resumeItemListStart
         \resumeItem{Co-built MLP/CNN ensemble using Quantum Preprocessing to diagnose Alzheimer's with over 85\% accuracy}
         \resumeItem{Validated by neuroscience experts at MIT and Harvard; won MSEF Regionals and States 2022}
       \resumeItemListEnd
 
     \resumeResearchHeading
-      {My Automated Communication Companion}{Feb. 2019 -- Sept. 2019}
+      {My Automated Communication Companion}{Feb. 2019 - Jun 2021}
       \resumeItemListStart
         \resumeItem{Built smart-hat using object detection and speech recognition to teach non-verbal kids to speak}
         \resumeItem{Tested with a non-verbal autistic child, who successfully repeated a word using the device}
@@ -222,7 +224,7 @@
       {University of Michigan, ROAHM Robotics Lab}{Aug. 2024 -- Present}
       \resumeItemListStart
         \resumeItem{Built real-time 3D scene pipeline (Gaussian Splat, SAM-2, Grounding DINO) on ROS2 for Fetch arm}
-        \resumeItem{Building feed-forward SDF network for sub-second, collision-aware 3D scene queries for VLAs}
+        \resumeItem{Building feed-forward ViT-to-SDF network for sub-second, collision-aware 3D scene queries for VLA robots, targeting ICRA}
         %ALT{VLA policies}{Developing Transformer-based VLA models for generalist robot policies across diverse tasks}
         %ALT{SDF from ViT latents}{Building feed-forward network decoding SDFs from ViT latents for millisecond 3D reconstruction}
       \resumeItemListEnd
@@ -230,20 +232,21 @@
     \resumeResearchHeading
       {Columbia University, Center for Smart Streetscapes}{May 2023 -- Feb. 2024}
       \resumeItemListStart
-        \resumeItem{Pivoted from GPS to camera-based localization after field failure; co-authored IEEE IV paper}
+        \resumeItem{Built camera-based localization + MQTT pedestrian alert system; co-authored 2024 IEEE IV paper}
+        %ALT{networking}{Built low-latency MQTT-based distributed messaging system for real-time traj. prediction; co-authored 2024 IEEE IV paper}
         \resumeItem{Optimized alert pipeline to $<$1.5s latency, meeting human reaction time to prevent accidents}
       \resumeItemListEnd
 
     \resumeResearchHeading
       {Massachusetts Institute of Technology, Auto ID Lab}{Jun. 2023 -- Sep. 2023}
       \resumeItemListStart
-        \resumeItem{Built YOLOv8-based 2FA system to verify AV headlight patterns, securing V2I communication}
+        \resumeItem{Built YOLOv8 + binary-image 2FA system to verify AV headlight patterns, securing V2I communication}
       \resumeItemListEnd
 
     \resumeResearchHeading
       {Massachusetts Institute of Technology, MetaConscious Group}{Jul. 2022 -- Aug. 2022}
       \resumeItemListStart
-        \resumeItem{Created a Reinforcement Learning agent to mimic primates when they learn under a changing environment}
+        \resumeItem{Created RL agent modeling primate learning under a changing environment}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd

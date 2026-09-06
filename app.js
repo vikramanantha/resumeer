@@ -1,13 +1,26 @@
 import { renderDocument } from "./resume-renderer.js";
 import { parseResume } from "./resume-parser.js";
+import { assignIds, applyState, saveState, loadState, clearState } from "./session-state.js";
 import { BusyTexRunner, PdfLatex, clearAllPackageCache } from "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/dist/index.js";
 
 const TEX_SOURCE = "resume_full.tex";
 const BUSYTEX_BASE = new URL("busytex-assets/", import.meta.url).href.replace(/\/$/, "");
+// Polling the .tex only makes sense while you're editing it locally; on the
+// published site it would just be every visitor re-downloading it forever.
+const IS_LOCAL = ["localhost", "127.0.0.1", ""].includes(location.hostname);
+const POLL_MS = 2000;
 
 let resumeData = null;
 let runner = null;
 let pdflatex = null;
+let lastTexText = null;
+let saveTimer = null;
+
+// Called from every toggle/selection so state survives a reload.
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => resumeData && saveState(resumeData), 200);
+}
 
 // The value written in the .tex is the default choice; %ALT directives in the
 // .tex supply the alternatives. The default has no label, so it renders as
@@ -137,8 +150,10 @@ function positionMenu(trigger, menu) {
   }
 }
 
-function buildDropdown(labelText, currentValue, alternatives, onChange) {
-  const choices = choicesFor(currentValue, alternatives);
+function buildDropdown(labelText, defaultValue, alternatives, currentValue, onChange) {
+  // Choices are always built from the .tex default plus its %ALT variants, so
+  // the labels stay correct no matter which one is currently selected.
+  const choices = choicesFor(defaultValue, alternatives);
 
   const wrap = document.createElement("div");
   wrap.className = "field-row";
@@ -247,6 +262,7 @@ function buildForm(container) {
     sectionCb.addEventListener("change", () => {
       section.enabled = sectionCb.checked;
       bodyWrap.hidden = !section.enabled;
+      scheduleSave();
     });
     header.appendChild(sectionCb);
 
@@ -263,7 +279,7 @@ function buildForm(container) {
 
     if (section.kind === "raw") {
       bodyWrap.appendChild(
-        buildDropdown("", section.raw_text, [], (val) => {
+        buildDropdown("", section.raw_text, [], section.raw_text, (val) => {
           section.raw_text = val;
         })
       );
@@ -291,6 +307,7 @@ function buildForm(container) {
       enabledCb.addEventListener("change", () => {
         entry.enabled = enabledCb.checked;
         fieldsWrap.hidden = !entry.enabled;
+        scheduleSave();
       });
       summary.appendChild(enabledCb);
 
@@ -306,9 +323,10 @@ function buildForm(container) {
 
       entry.field_names.forEach((fname, fIdx) => {
         fieldsWrap.appendChild(
-          buildDropdown(fname, entry.args[fIdx], entry.field_options[fname] || [], (val) => {
+          buildDropdown(fname, entry.default_args[fIdx], entry.field_options[fname] || [], entry.args[fIdx], (val) => {
             entry.args[fIdx] = val;
             if (fIdx === 0) titleSpan.innerHTML = formatChoiceHtml(val);
+            scheduleSave();
           })
         );
       });
@@ -321,11 +339,13 @@ function buildForm(container) {
         cb.checked = bullet.enabled;
         cb.addEventListener("change", () => {
           bullet.enabled = cb.checked;
+          scheduleSave();
         });
         row.appendChild(cb);
 
-        const dd = buildDropdown("", bullet.text, bullet.options || [], (val) => {
+        const dd = buildDropdown("", bullet.default_text, bullet.options || [], bullet.text, (val) => {
           bullet.text = val;
+          scheduleSave();
         });
         dd.classList.add("bullet-dropdown");
         row.appendChild(dd);
@@ -405,15 +425,31 @@ async function compileResume(onProgress) {
   return { ...result, texSource };
 }
 
+async function fetchTex() {
+  const res = await fetch(TEX_SOURCE, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Could not load ${TEX_SOURCE} (HTTP ${res.status})`);
+  return res.text();
+}
+
+// Re-reads resume_full.tex and rebuilds the form in place, carrying the
+// current toggles/selections across. Saved state is content-addressed and
+// validated against what the new .tex offers, so anything that no longer
+// exists just falls back to its default rather than misapplying.
+async function loadResume({ preserveState = true } = {}) {
+  const text = await fetchTex();
+  lastTexText = text;
+  const parsed = parseResume(text);
+  assignIds(parsed);
+  if (preserveState) applyState(parsed, loadState());
+  resumeData = parsed;
+  buildForm(document.getElementById("resumeer-form"));
+}
+
 async function init() {
   // resume_full.tex is the single source of truth -- structure, content, and
   // the %ALT alternatives all come from it, parsed here in the browser. There
-  // is nothing to regenerate: edit the .tex, reload the page.
-  const res = await fetch(TEX_SOURCE, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Could not load ${TEX_SOURCE} (HTTP ${res.status})`);
-  resumeData = parseResume(await res.text());
-
-  buildForm(document.getElementById("resumeer-form"));
+  // is nothing to regenerate: edit the .tex and it's picked up on reload.
+  await loadResume();
 
   const compileBtn = document.getElementById("compile-btn");
   const statusEl = document.getElementById("compile-status");
@@ -520,6 +556,53 @@ async function init() {
       compileBtn.disabled = false;
     }
   });
+
+  const reloadBtn = document.getElementById("reload-tex-btn");
+  const resetBtn = document.getElementById("reset-selections-btn");
+  const texStatus = document.getElementById("tex-status");
+
+  function flashTexStatus(message) {
+    texStatus.textContent = message;
+    texStatus.hidden = false;
+    clearTimeout(flashTexStatus._t);
+    flashTexStatus._t = setTimeout(() => (texStatus.hidden = true), 2500);
+  }
+
+  reloadBtn.addEventListener("click", async () => {
+    reloadBtn.disabled = true;
+    try {
+      await loadResume();
+      flashTexStatus("Reloaded resume_full.tex");
+    } catch (err) {
+      flashTexStatus("Reload failed: " + err.message);
+    } finally {
+      reloadBtn.disabled = false;
+    }
+  });
+
+  resetBtn.addEventListener("click", async () => {
+    clearState();
+    await loadResume({ preserveState: false });
+    flashTexStatus("Selections reset to the .tex defaults");
+  });
+
+  // While editing locally, pick up saves to the .tex automatically. Compares
+  // the fetched text rather than trusting headers, so it works regardless of
+  // how the dev server handles caching/ETags.
+  if (IS_LOCAL) {
+    setInterval(async () => {
+      if (document.hidden) return;
+      try {
+        const text = await fetchTex();
+        if (text !== lastTexText) {
+          await loadResume();
+          flashTexStatus("resume_full.tex changed — reloaded");
+        }
+      } catch {
+        /* dev server momentarily unavailable; try again next tick */
+      }
+    }, POLL_MS);
+  }
 }
 
 init();

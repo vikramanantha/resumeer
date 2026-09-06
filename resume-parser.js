@@ -106,7 +106,11 @@ function parseBullets(chunk, start, end) {
     const idx = findCommand(chunk, "resumeItem", i);
     if (idx === -1 || idx >= end) break;
     const [args, after] = readArgs(chunk, idx + "\\resumeItem".length, 1);
-    bullets.push({ text: args[0].trim(), enabled: true, options: [], _end: after });
+    const text = args[0].trim();
+    // `text` is the current selection (mutated when a %ALT is picked);
+    // `default_text` stays as written in the .tex so the dropdown can always
+    // tell which choice is the default and label the rest correctly.
+    bullets.push({ text, default_text: text, enabled: true, options: [], _end: after });
     i = after;
   }
   return bullets;
@@ -193,7 +197,14 @@ export function parseResume(text, { webFont = true } = {}) {
       }
 
       bullets.forEach((b) => delete b._end);
-      entries.push({ args, field_names: fieldNames, bullets, field_options, enabled: true });
+      entries.push({
+        args,
+        default_args: [...args],
+        field_names: fieldNames,
+        bullets,
+        field_options,
+        enabled: true,
+      });
       cursor = next;
     }
 
