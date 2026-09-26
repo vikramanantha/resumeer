@@ -37,6 +37,21 @@ function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+// Commands with no markup meaning that should still show as the character
+// they typeset, rather than leaking "\to" into the dropdown as literal text.
+const TEX_SYMBOLS = {
+  "\\to": "→",
+  "\\rightarrow": "→",
+  "\\textasciitilde": "~",
+  "\\sim": "~",
+  "\\ldots": "…",
+  "\\times": "×",
+};
+
+function replaceTexSymbols(s) {
+  return s.replace(/\\[a-zA-Z]+/g, (m) => TEX_SYMBOLS[m] ?? m);
+}
+
 // Small LaTeX-subset -> HTML converter, purely for display in the dropdown
 // list: renders \textbf{...} and \emph{...}/\textit{...} (with nesting) as
 // real bold/italic, unescapes common specials (\& \% \$ \# \_) and simple
@@ -82,7 +97,16 @@ function texInlineToHtml(text) {
       while (j < n && text[j] !== "$") j++;
       const inner = text.slice(i + 1, j);
       i = j + 1;
-      return esc(inner);
+      return replaceTexSymbols(esc(inner));
+    }
+    if (text[i] === "\\") {
+      for (const cmd of Object.keys(TEX_SYMBOLS)) {
+        // Require a word boundary so \times doesn't swallow \timesfoo.
+        if (text.startsWith(cmd, i) && !/[a-zA-Z]/.test(text[i + cmd.length] || "")) {
+          i += cmd.length;
+          return esc(TEX_SYMBOLS[cmd]);
+        }
+      }
     }
     if (text[i] === "{") return parseGroup();
     const ch = text[i];
