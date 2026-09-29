@@ -267,6 +267,35 @@
             cursor: pointer;
         }
 
+        /* Hovering a clipped wording fades in the whole thing. */
+        .hover-card {
+            position: fixed;
+            z-index: 2500;
+            background-color: var(--color-main);
+            color: white;
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            box-shadow: 0 6px 20px rgba(10, 35, 66, 0.25);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.16s ease, transform 0.16s ease;
+        }
+        .hover-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hover-card[hidden] { display: none; }
+        .hover-card .option-label {
+            color: white;
+            opacity: 0.65;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hover-card { transition: none; }
+        }
+
         /* One wording, so the row is the checkbox -- no menu to open. */
         .bullet-flat {
             align-items: center;

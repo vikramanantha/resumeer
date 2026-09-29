@@ -179,9 +179,60 @@ function positionMenu(trigger, menu) {
 
 // Every choice shows its short description, so the tag is consistent across
 // the whole form rather than appearing only where variants exist.
-function renderLabeledHtml(label, value, fallback) {
-  return `<span class="option-label">${escapeHtml(label || fallback)}:</span> ${formatChoiceHtml(value)}`;
+function renderLabeledHtml(label, value, fallback, maxLen) {
+  return `<span class="option-label">${escapeHtml(label || fallback)}:</span> ${formatChoiceHtml(value, maxLen)}`;
 }
+
+// A wording is shown on one clipped line, so hovering it fades in the whole
+// thing. Fixed-position, for the same reason the dropdown menus are: the form
+// panel scrolls and would otherwise clip it.
+const hoverCard = document.createElement("div");
+hoverCard.className = "hover-card";
+hoverCard.hidden = true;
+document.body.appendChild(hoverCard);
+let hoverTimer = null;
+
+function hideHoverCard() {
+  clearTimeout(hoverTimer);
+  hoverCard.classList.remove("show");
+  hoverCard.hidden = true;
+}
+
+function placeHoverCard(target) {
+  const rect = target.getBoundingClientRect();
+  const margin = 8;
+  hoverCard.style.maxWidth = `${Math.min(560, window.innerWidth - margin * 2)}px`;
+  hoverCard.style.left = "0px";
+  hoverCard.style.top = "0px";
+  hoverCard.hidden = false; // must be laid out before it can be measured
+  const { width, height } = hoverCard.getBoundingClientRect();
+  const left = Math.max(margin, Math.min(rect.left, window.innerWidth - width - margin));
+  const below = rect.bottom + 6;
+  const top = below + height + margin > window.innerHeight ? Math.max(margin, rect.top - 6 - height) : below;
+  hoverCard.style.left = `${left}px`;
+  hoverCard.style.top = `${top}px`;
+}
+
+// `el` is the clipped line; `html` is what to show in full. Nothing is shown
+// when the line isn't actually truncated -- there'd be nothing to reveal.
+function attachHoverCard(el, getHtml) {
+  el.addEventListener("mouseenter", () => {
+    if (el.scrollWidth <= el.clientWidth) return;
+    clearTimeout(hoverTimer);
+    // Moving along a list shouldn't re-wait each time, only the first hover.
+    const delay = hoverCard.classList.contains("show") ? 0 : 200;
+    hoverTimer = setTimeout(() => {
+      hoverCard.innerHTML = getHtml();
+      placeHoverCard(el);
+      requestAnimationFrame(() => hoverCard.classList.add("show"));
+    }, delay);
+  });
+  el.addEventListener("mouseleave", hideHoverCard);
+}
+
+// Fixed position goes stale the moment anything scrolls underneath it.
+document.addEventListener("scroll", hideHoverCard, true);
+window.addEventListener("resize", hideHoverCard);
 
 function buildDropdown(labelText, defaultValue, alternatives, currentValue, onChange) {
   // Choices are always built from the .tex default plus its %ALT variants, so
@@ -366,6 +417,13 @@ function buildVariantPicker(bullet, onChange) {
 
   combo.addEventListener("keydown", handleComboKeydown(trigger));
 
+  attachHoverCard(currentEl, () => {
+    const on = included();
+    return on.length
+      ? on.map((v) => renderLabeledHtml(v.label, v.value, "Default", Infinity)).join("<br>")
+      : "Not included";
+  });
+
   updateDisplay();
   wrap.appendChild(combo);
   return {
@@ -481,7 +539,7 @@ function buildForm(container) {
           const text = document.createElement("span");
           text.className = "bullet-static";
           text.innerHTML = renderLabeledHtml(variant.label, variant.value, "Default");
-          text.title = variant.value; // the row ellipsizes; hover for the rest
+          attachHoverCard(text, () => renderLabeledHtml(variant.label, variant.value, "Default", Infinity));
           row.append(cb, text);
           fieldsWrap.appendChild(row);
           return;
