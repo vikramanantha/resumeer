@@ -206,6 +206,45 @@
         .tex-select-option.selected {
             background: #e8edf3;
         }
+        /* A bullet's menu rows are checkboxes -- any number can be on, and
+           each one that is becomes its own bullet in the rendered resume. */
+        .variant-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .variant-option input[type="checkbox"] {
+            margin: 2px 0 0 0;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .variant-text {
+            min-width: 0;
+        }
+
+        /* How many further wordings are included beyond the one shown. */
+        .variant-count {
+            flex-shrink: 0;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            background-color: var(--color-accent);
+            border-radius: 9px;
+            padding: 1px 7px;
+        }
+        .variant-count[hidden] { display: none; }
+
+        .variant-none {
+            color: #999;
+            font-style: italic;
+        }
+        .tex-select.empty {
+            border-style: dashed;
+            background: #fafafa;
+        }
+
         .option-label {
             color: var(--color-accent);
             font-weight: 700;

@@ -29,11 +29,18 @@ export function renderSection(section) {
       }
     }
 
-    const enabledBullets = entry.bullets.filter((b) => b.enabled);
-    if (enabledBullets.length) {
+    // Every included variant becomes its own \resumeItem, so one bullet in
+    // resume_full.tex can render as several here -- or as none, if all of its
+    // variants are unchecked. Source order is preserved: a bullet's variants
+    // stay together, in .tex order (the written wording first, then its %ALTs).
+    const texts = [];
+    for (const b of entry.bullets) {
+      for (const v of b.variants) if (v.enabled) texts.push(v.value);
+    }
+    if (texts.length) {
       lines.push("      \\resumeItemListStart");
-      for (const b of enabledBullets) {
-        lines.push(`        \\resumeItem{${b.text}}`);
+      for (const t of texts) {
+        lines.push(`        \\resumeItem{${t}}`);
       }
       lines.push("      \\resumeItemListEnd");
     }

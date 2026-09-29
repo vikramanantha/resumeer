@@ -9,6 +9,9 @@
 //   \resumeItem{Benchmarked ... for AV training}
 //   %ALT{Nuro perception}{Benchmarked ... for AV perception}
 //
+// Each of those becomes an independently includable *variant* of the bullet,
+// so a single \resumeItem here can emit several in the rendered resume.
+//
 //   \resumeSubheading
 //     {University of Michigan}{Aug. 2024 -- May 2028 (expected)}
 //     {B.S. ...}{3.94/4.00 GPA}
@@ -16,7 +19,12 @@
 //
 // A bare %ALT{label}{value} attaches to the \resumeItem above it; the
 // %ALT[FieldName]{label}{value} form attaches to a named field of the entry
-// it sits in.
+// it sits in. %LABEL{label} names the \resumeItem's own wording, which is
+// otherwise the one variant with nothing to describe it:
+//
+//   \resumeItem{Benchmarked ... for AV training}
+//   %LABEL{Model benchmarking}
+//   %ALT{Team leadership}{Led 3 engineers to ship ...}
 
 const HEADING_COMMANDS = {
   resumeSubheading: { nArgs: 4, fieldNames: ["Organization", "Dates", "Title / Degree", "Location / Detail"] },
@@ -71,17 +79,26 @@ function readArgs(text, i, n) {
   return [args, i];
 }
 
-// Collect every %ALT directive in `chunk`, with the offset it appears at so it
-// can be attached to whichever bullet/entry it follows.
-function parseAltDirectives(chunk) {
+// Collect every %ALT / %LABEL directive in `chunk`, with the offset it appears
+// at so it can be attached to whichever bullet/entry it follows.
+function parseDirectives(chunk) {
   const directives = [];
-  let search = 0;
-  for (;;) {
-    const idx = chunk.indexOf("%ALT", search);
-    if (idx === -1) break;
-    let i = idx + "%ALT".length;
-    let fieldName = null;
+  // Require a '[' or '{' straight after the name so a prose comment that
+  // happens to start with the word isn't read as a directive.
+  const re = /%(ALT|LABEL)(?=[[{])/g;
+  let m;
+  while ((m = re.exec(chunk)) !== null) {
+    const idx = m.index;
+    const kind = m[1];
+    let i = idx + m[0].length;
     try {
+      if (kind === "LABEL") {
+        const [[label], after] = readArgs(chunk, i, 1);
+        directives.push({ kind, offset: idx, label: label.trim() });
+        re.lastIndex = after;
+        continue;
+      }
+      let fieldName = null;
       if (chunk[i] === "[") {
         const close = chunk.indexOf("]", i);
         if (close === -1) throw new Error("unclosed [ in %ALT");
@@ -89,11 +106,11 @@ function parseAltDirectives(chunk) {
         i = close + 1;
       }
       const [[label, value], after] = readArgs(chunk, i, 2);
-      directives.push({ offset: idx, field: fieldName, label: label.trim(), value: value.trim() });
-      search = after;
+      directives.push({ kind, offset: idx, field: fieldName, label: label.trim(), value: value.trim() });
+      re.lastIndex = after;
     } catch (err) {
-      console.warn(`[Resumeer] Skipping malformed %ALT at offset ${idx}:`, err.message);
-      search = idx + 4;
+      console.warn(`[Resumeer] Skipping malformed %${kind} at offset ${idx}:`, err.message);
+      re.lastIndex = idx + m[0].length;
     }
   }
   return directives;
@@ -106,14 +123,28 @@ function parseBullets(chunk, start, end) {
     const idx = findCommand(chunk, "resumeItem", i);
     if (idx === -1 || idx >= end) break;
     const [args, after] = readArgs(chunk, idx + "\\resumeItem".length, 1);
-    const text = args[0].trim();
-    // `text` is the current selection (mutated when a %ALT is picked);
-    // `default_text` stays as written in the .tex so the dropdown can always
-    // tell which choice is the default and label the rest correctly.
-    bullets.push({ text, default_text: text, enabled: true, options: [], _end: after });
+    // `default_text` is the wording as written in the .tex. %ALT directives
+    // found later in this entry get pushed onto `options`, and once the entry
+    // is fully scanned the two are combined into `variants` (see
+    // buildVariants) -- which is what the app and renderer actually use.
+    bullets.push({ default_text: args[0].trim(), options: [], _end: after });
     i = after;
   }
   return bullets;
+}
+
+// A bullet's variants are the wording written in the .tex plus every %ALT
+// attached to it, each independently includable. Only the .tex wording is on
+// by default, so an untouched parse renders exactly the source document.
+// Duplicates collapse by value, so an %ALT that repeats the default (or an
+// earlier %ALT) doesn't produce a second identical checkbox.
+function buildVariants(defaultText, defaultLabel, options) {
+  const byValue = new Map([[defaultText, { label: defaultLabel || null, value: defaultText, enabled: true }]]);
+  for (const alt of options) {
+    if (byValue.has(alt.value)) continue;
+    byValue.set(alt.value, { label: alt.label || null, value: alt.value, enabled: false });
+  }
+  return Array.from(byValue.values());
 }
 
 function detectHeadingCommand(chunk) {
@@ -161,7 +192,7 @@ export function parseResume(text, { webFont = true } = {}) {
     }
 
     const { nArgs, fieldNames } = HEADING_COMMANDS[command];
-    const directives = parseAltDirectives(chunk);
+    const directives = parseDirectives(chunk);
     const entries = [];
     let cursor = 0;
 
@@ -185,18 +216,28 @@ export function parseResume(text, { webFont = true } = {}) {
       // Attach the %ALT directives that fall inside this entry's span.
       const mine = directives.filter((d) => d.offset >= idx && d.offset < boundary);
       const field_options = {};
+      const lastBulletBefore = (offset) => [...bullets].reverse().find((b) => b._end <= offset);
       for (const d of mine) {
-        if (d.field) {
+        if (d.kind === "LABEL") {
+          const owner = lastBulletBefore(d.offset);
+          if (owner) owner.default_label = d.label;
+          else console.warn(`[Resumeer] %LABEL{${d.label}} has no \\resumeItem above it; ignored.`);
+        } else if (d.field) {
           (field_options[d.field] ||= []).push({ label: d.label, value: d.value });
         } else {
           // Bare %ALT belongs to the last bullet that ends before it.
-          const owner = [...bullets].reverse().find((b) => b._end <= d.offset);
+          const owner = lastBulletBefore(d.offset);
           if (owner) owner.options.push({ label: d.label, value: d.value });
           else console.warn(`[Resumeer] %ALT{${d.label}} has no \\resumeItem above it; ignored.`);
         }
       }
 
-      bullets.forEach((b) => delete b._end);
+      bullets.forEach((b) => {
+        b.variants = buildVariants(b.default_text, b.default_label, b.options);
+        delete b.options;
+        delete b.default_label;
+        delete b._end;
+      });
       entries.push({
         args,
         default_args: [...args],

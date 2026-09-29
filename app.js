@@ -23,8 +23,7 @@ function scheduleSave() {
 }
 
 // The value written in the .tex is the default choice; %ALT directives in the
-// .tex supply the alternatives. The default has no label, so it renders as
-// "General".
+// .tex supply the alternatives.
 function choicesFor(currentValue, alternatives = []) {
   const byValue = new Map([[currentValue, { label: null, value: currentValue }]]);
   for (const alt of alternatives) {
@@ -150,8 +149,12 @@ document.addEventListener("click", (e) => {
 let suppressScrollCloseUntil = 0;
 document.addEventListener(
   "scroll",
-  () => {
+  (e) => {
     if (Date.now() < suppressScrollCloseUntil) return;
+    // Scrolling *within* an open menu must not close it -- with multi-select
+    // you stay in the menu long enough to scroll it. Only scrolling the page
+    // or the form panel underneath invalidates the menu's fixed position.
+    if (e.target instanceof Element && e.target.closest(".tex-select-menu")) return;
     closeAllDropdowns();
   },
   true
@@ -172,6 +175,12 @@ function positionMenu(trigger, menu) {
     menu.style.bottom = "";
     menu.style.top = `${rect.bottom + 2}px`;
   }
+}
+
+// Every choice shows its short description, so the tag is consistent across
+// the whole form rather than appearing only where variants exist.
+function renderLabeledHtml(label, value, fallback) {
+  return `<span class="option-label">${escapeHtml(label || fallback)}:</span> ${formatChoiceHtml(value)}`;
 }
 
 function buildDropdown(labelText, defaultValue, alternatives, currentValue, onChange) {
@@ -207,13 +216,10 @@ function buildDropdown(labelText, defaultValue, alternatives, currentValue, onCh
   menu.hidden = true;
   combo.appendChild(menu);
 
-  // Every choice always shows a label, falling back to "General" for the
-  // default (the value written in the .tex), so the tag is consistent
-  // across all fields rather than appearing only where variants exist.
-  function renderChoiceHtml(choice) {
-    const label = escapeHtml(choice.label || "General");
-    return `<span class="option-label">${label}:</span> ${formatChoiceHtml(choice.value)}`;
-  }
+  // A field with a single choice has nothing to tell apart, so it shows just
+  // the value -- the field's own name above it already says what it is.
+  const renderChoiceHtml = (choice) =>
+    choices.length === 1 ? formatChoiceHtml(choice.value) : renderLabeledHtml(choice.label, choice.value, "Default");
 
   function updateCurrentDisplay() {
     const match = choices.find((c) => c.value === currentValue) || { label: null, value: currentValue };
@@ -255,17 +261,120 @@ function buildDropdown(labelText, defaultValue, alternatives, currentValue, onCh
     }
   });
 
-  combo.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
+  combo.addEventListener("keydown", handleComboKeydown(trigger));
+
+  wrap.appendChild(combo);
+  return wrap;
+}
+
+// Enter/Space on the combo opens it; inside the menu those keys belong to
+// whatever is focused there (a variant checkbox), so only Escape is handled.
+function handleComboKeydown(trigger) {
+  return (e) => {
+    const inMenu = e.target instanceof Element && e.target.closest(".tex-select-menu");
+    if (e.key === "Escape") {
+      closeAllDropdowns();
+    } else if (!inMenu && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
       trigger.click();
-    } else if (e.key === "Escape") {
+    }
+  };
+}
+
+// A bullet is a set of wordings, each independently includable, so the picker
+// is a list of checkboxes rather than a single-choice menu: tick as many as
+// you want and each becomes its own bullet in the rendered resume. Returns
+// { el, refresh } -- refresh() re-reads bullet.variants, for when something
+// outside the picker (the row's master checkbox) changes them.
+function buildVariantPicker(bullet, onChange) {
+  const wrap = document.createElement("div");
+  wrap.className = "field-row";
+
+  const combo = document.createElement("div");
+  combo.className = "tex-select";
+  combo.tabIndex = 0;
+
+  const trigger = document.createElement("div");
+  trigger.className = "tex-select-trigger";
+  const currentEl = document.createElement("div");
+  currentEl.className = "tex-select-current";
+  const countEl = document.createElement("span");
+  countEl.className = "variant-count";
+  const caret = document.createElement("i");
+  caret.className = "fas fa-chevron-down tex-select-caret";
+  trigger.append(currentEl, countEl, caret);
+  combo.appendChild(trigger);
+
+  const menu = document.createElement("div");
+  menu.className = "tex-select-menu";
+  menu.hidden = true;
+  combo.appendChild(menu);
+
+  const included = () => bullet.variants.filter((v) => v.enabled);
+
+  function updateDisplay() {
+    const on = included();
+    combo.classList.toggle("empty", on.length === 0);
+    if (!on.length) {
+      currentEl.innerHTML = `<span class="variant-none">Not included</span>`;
+      countEl.hidden = true;
+      return;
+    }
+    // The collapsed row shows the first included wording; the badge says how
+    // many more are coming with it.
+    currentEl.innerHTML = renderLabeledHtml(on[0].label, on[0].value, "Default");
+    countEl.textContent = `+${on.length - 1}`;
+    countEl.hidden = on.length < 2;
+  }
+
+  function renderMenu() {
+    menu.innerHTML = "";
+    bullet.variants.forEach((variant, i) => {
+      // A <label> wrapping the checkbox makes the whole row a hit target.
+      const row = document.createElement("label");
+      row.className = "tex-select-option variant-option";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = variant.enabled;
+      const text = document.createElement("span");
+      text.className = "variant-text";
+      text.innerHTML = renderLabeledHtml(variant.label, variant.value, i === 0 ? "Default" : "Variant");
+      row.append(cb, text);
+      row.classList.toggle("selected", variant.enabled);
+      cb.addEventListener("change", () => {
+        variant.enabled = cb.checked;
+        row.classList.toggle("selected", variant.enabled);
+        updateDisplay();
+        onChange();
+      });
+      menu.appendChild(row);
+    });
+  }
+
+  trigger.addEventListener("click", () => {
+    if (menu.hidden) {
+      closeAllDropdowns();
+      renderMenu();
+      positionMenu(trigger, menu);
+      menu.hidden = false;
+      combo.classList.add("open");
+      suppressScrollCloseUntil = Date.now() + 150;
+    } else {
       closeAllDropdowns();
     }
   });
 
+  combo.addEventListener("keydown", handleComboKeydown(trigger));
+
+  updateDisplay();
   wrap.appendChild(combo);
-  return wrap;
+  return {
+    el: wrap,
+    refresh() {
+      updateDisplay();
+      if (!menu.hidden) renderMenu();
+    },
+  };
 }
 
 function buildForm(container) {
@@ -355,24 +464,34 @@ function buildForm(container) {
         );
       });
 
-      entry.bullets.forEach((bullet, bIdx) => {
+      entry.bullets.forEach((bullet) => {
         const row = document.createElement("div");
         row.className = "bullet-row";
+
+        // Shortcut for the common case: include this bullet at all, or not.
+        // Checked means "at least one wording included"; ticking it back on
+        // restores the wording written in the .tex.
         const cb = document.createElement("input");
         cb.type = "checkbox";
-        cb.checked = bullet.enabled;
+        cb.title = "Include this bullet";
+        cb.checked = bullet.variants.some((v) => v.enabled);
         cb.addEventListener("change", () => {
-          bullet.enabled = cb.checked;
+          if (cb.checked) {
+            if (!bullet.variants.some((v) => v.enabled)) bullet.variants[0].enabled = true;
+          } else {
+            bullet.variants.forEach((v) => (v.enabled = false));
+          }
+          picker.refresh();
           scheduleSave();
         });
         row.appendChild(cb);
 
-        const dd = buildDropdown("", bullet.default_text, bullet.options || [], bullet.text, (val) => {
-          bullet.text = val;
+        const picker = buildVariantPicker(bullet, () => {
+          cb.checked = bullet.variants.some((v) => v.enabled);
           scheduleSave();
         });
-        dd.classList.add("bullet-dropdown");
-        row.appendChild(dd);
+        picker.el.classList.add("bullet-dropdown");
+        row.appendChild(picker.el);
         fieldsWrap.appendChild(row);
       });
 
