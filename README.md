@@ -17,25 +17,32 @@ regenerate: change the `.tex`, reload the page.
 **Structural changes** (header links, new entries, new sections) — just
 edit the `.tex` normally.
 
-**Alternative wordings** live in the `.tex` as `%ALT` comments. LaTeX
-ignores them; the parser picks them up and offers them in the editor.
-
-For a bullet, each wording is its own checkbox and any number can be on at
-once — so one `\resumeItem` here can come out as several bullets in the PDF,
-or as none if you untick them all. Add as many `%ALT`s as you like. `%LABEL`
-names the wording written in the `.tex` itself, which otherwise has nothing
-describing it. Labels are a few words saying what that wording *says*, since
-that is what you are choosing between:
+**Every candidate wording is a plain `\resumeItem`.** `%LABEL` gives it the
+few-word description the editor shows — a description of what that wording
+*says*, since that is what you are choosing between — and `%OFF` means it
+starts unticked. So the `.tex` holds everything you might say, and the items
+without `%OFF` are your base resume:
 
 ```latex
-\resumeItem{Benchmarked ... for AV training}
+\resumeItem{Delivered prod. 3D segmentation pipeline ...}
+%LABEL{Pipeline shipped, team led}
+\resumeItem{Benchmarked Gaussian Grouping, LangSplat, and SAM ...}
 %LABEL{Three models benchmarked}
-%ALT{Roadmap and team lead}{Set technical roadmap ...; led 3 engineers ...}
-%ALT{Test plans and triage}{Wrote test plans comparing model renders ...}
+%OFF
 ```
 
-The checkbox next to the row is a shortcut for the whole bullet: untick it to
-drop the bullet entirely, tick it to bring back the `.tex` wording.
+Each one is its own checkbox in the editor, and any number can be on — tick
+three and you get three bullets. Adding a wording means adding a
+`\resumeItem` + `%LABEL` + `%OFF`; nothing else to keep in sync. Because they
+are real LaTeX, you can reorder them or move them between entries freely.
+
+Compiling `resume_full.tex` directly gives you every wording at once — it is
+a pool, not a resume. The editor is what turns it into one.
+
+**`%ALT` still works** if you want a pick-one group instead: a bare
+`%ALT{label}{value}` under a `\resumeItem` makes that bullet a menu, where the
+row checkbox includes or drops the bullet and the menu picks which wordings
+come with it.
 
 Or to a named field of an entry:
 
@@ -47,6 +54,7 @@ Or to a named field of an entry:
 ```
 
 A field holds one value, so unlike a bullet it stays a pick-one dropdown.
+This is what `%ALT[Field]` is for.
 
 Field names are the labels shown in the UI: `Organization`, `Dates`,
 `Title / Degree`, `Location / Detail` (or `Title`/`Dates` for
@@ -54,8 +62,8 @@ Field names are the labels shown in the UI: `Organization`, `Dates`,
 
 ## Files
 
-- `resume_full.tex` — the resume and its `%ALT` / `%LABEL` alternatives.
-- `resume-parser.js` — parses the `.tex` (including `%ALT` / `%LABEL`) in the browser.
+- `resume_full.tex` — every wording, as `\resumeItem` + `%LABEL` (+ `%OFF`).
+- `resume-parser.js` — parses the `.tex` (including `%LABEL` / `%OFF` / `%ALT`) in the browser.
 - `resume-renderer.js` — renders the edited structure back to LaTeX.
 - `app.js` / `index.html` — the editor UI.
 - `session-state.js` — remembers your ticks across reloads, keyed by content.

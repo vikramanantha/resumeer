@@ -465,12 +465,34 @@ function buildForm(container) {
       });
 
       entry.bullets.forEach((bullet) => {
+        // The usual case: one wording, so the bullet *is* a checkbox. A <label>
+        // for the whole row makes the text a hit target too.
+        if (bullet.variants.length === 1) {
+          const variant = bullet.variants[0];
+          const row = document.createElement("label");
+          row.className = "bullet-row bullet-flat";
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = variant.enabled;
+          cb.addEventListener("change", () => {
+            variant.enabled = cb.checked;
+            scheduleSave();
+          });
+          const text = document.createElement("span");
+          text.className = "bullet-static";
+          text.innerHTML = renderLabeledHtml(variant.label, variant.value, "Default");
+          text.title = variant.value; // the row ellipsizes; hover for the rest
+          row.append(cb, text);
+          fieldsWrap.appendChild(row);
+          return;
+        }
+
+        // A bullet that still carries %ALT wordings is a pick-any group: the
+        // row checkbox includes or drops the bullet as a whole, and the menu
+        // chooses which of its wordings come with it.
         const row = document.createElement("div");
         row.className = "bullet-row";
 
-        // Shortcut for the common case: include this bullet at all, or not.
-        // Checked means "at least one wording included"; ticking it back on
-        // restores the wording written in the .tex.
         const cb = document.createElement("input");
         cb.type = "checkbox";
         cb.title = "Include this bullet";

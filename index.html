@@ -259,7 +259,31 @@
             gap: 8px;
             margin-bottom: 8px;
         }
-        .bullet-row input[type="checkbox"] { margin-top: 10px; }
+        .bullet-row input[type="checkbox"] {
+            margin-top: 10px;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        /* One wording, so the row is the checkbox -- no menu to open. */
+        .bullet-flat {
+            align-items: center;
+            cursor: pointer;
+            padding: 3px 0;
+        }
+        .bullet-flat input[type="checkbox"] { margin-top: 0; }
+        .bullet-static {
+            flex: 1;
+            min-width: 0;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bullet-flat:hover .bullet-static { color: var(--color-main); }
+        .bullet-flat input:not(:checked) + .bullet-static { color: #999; }
         /* min-width:0 so this flex item can shrink past its content's
            min-content width instead of widening the whole panel. */
         .bullet-row .field-row { flex: 1; margin-bottom: 0; min-width: 0; }

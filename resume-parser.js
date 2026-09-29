@@ -17,14 +17,21 @@
 //     {B.S. ...}{3.94/4.00 GPA}
 //     %ALT[Dates]{Dec 2027}{Aug. 2024 -- Dec. 2027 (expected)}
 //
-// A bare %ALT{label}{value} attaches to the \resumeItem above it; the
-// %ALT[FieldName]{label}{value} form attaches to a named field of the entry
-// it sits in. %LABEL{label} names the \resumeItem's own wording, which is
-// otherwise the one variant with nothing to describe it:
+// Every candidate wording is a plain \resumeItem. %LABEL{label} gives it the
+// few-word description the editor shows, and %OFF means it starts unticked --
+// so the .tex holds every wording you might use, and the ones without %OFF are
+// your base resume:
 //
 //   \resumeItem{Benchmarked ... for AV training}
 //   %LABEL{Model benchmarking}
-//   %ALT{Team leadership}{Led 3 engineers to ship ...}
+//   \resumeItem{Led 3 engineers to ship ...}
+//   %LABEL{Team leadership}
+//   %OFF
+//
+// %ALT still works and is what fields use: %ALT[FieldName]{label}{value}
+// attaches to a named field of the entry it sits in. A bare
+// %ALT{label}{value} attaches to the \resumeItem above it, making that
+// bullet a pick-one group rather than its own checkbox.
 
 const HEADING_COMMANDS = {
   resumeSubheading: { nArgs: 4, fieldNames: ["Organization", "Dates", "Title / Degree", "Location / Detail"] },
@@ -83,15 +90,20 @@ function readArgs(text, i, n) {
 // at so it can be attached to whichever bullet/entry it follows.
 function parseDirectives(chunk) {
   const directives = [];
-  // Require a '[' or '{' straight after the name so a prose comment that
-  // happens to start with the word isn't read as a directive.
-  const re = /%(ALT|LABEL)(?=[[{])/g;
+  const re = /%(ALT|LABEL|OFF)/g;
   let m;
   while ((m = re.exec(chunk)) !== null) {
     const idx = m.index;
     const kind = m[1];
     let i = idx + m[0].length;
+    // Require a '[' or '{' straight after ALT/LABEL, and a non-letter after
+    // OFF, so a prose comment starting with one of these words is left alone.
+    if (kind === "OFF" ? /[a-zA-Z]/.test(chunk[i] || "") : !"[{".includes(chunk[i] || "")) continue;
     try {
+      if (kind === "OFF") {
+        directives.push({ kind, offset: idx });
+        continue;
+      }
       if (kind === "LABEL") {
         const [[label], after] = readArgs(chunk, i, 1);
         directives.push({ kind, offset: idx, label: label.trim() });
@@ -134,12 +146,12 @@ function parseBullets(chunk, start, end) {
 }
 
 // A bullet's variants are the wording written in the .tex plus every %ALT
-// attached to it, each independently includable. Only the .tex wording is on
-// by default, so an untouched parse renders exactly the source document.
+// attached to it, each independently includable. The .tex wording is on
+// unless %OFF says otherwise; %ALT wordings are off.
 // Duplicates collapse by value, so an %ALT that repeats the default (or an
 // earlier %ALT) doesn't produce a second identical checkbox.
-function buildVariants(defaultText, defaultLabel, options) {
-  const byValue = new Map([[defaultText, { label: defaultLabel || null, value: defaultText, enabled: true }]]);
+function buildVariants(defaultText, defaultLabel, defaultOff, options) {
+  const byValue = new Map([[defaultText, { label: defaultLabel || null, value: defaultText, enabled: !defaultOff }]]);
   for (const alt of options) {
     if (byValue.has(alt.value)) continue;
     byValue.set(alt.value, { label: alt.label || null, value: alt.value, enabled: false });
@@ -218,10 +230,15 @@ export function parseResume(text, { webFont = true } = {}) {
       const field_options = {};
       const lastBulletBefore = (offset) => [...bullets].reverse().find((b) => b._end <= offset);
       for (const d of mine) {
-        if (d.kind === "LABEL") {
+        if (d.kind === "LABEL" || d.kind === "OFF") {
           const owner = lastBulletBefore(d.offset);
-          if (owner) owner.default_label = d.label;
-          else console.warn(`[Resumeer] %LABEL{${d.label}} has no \\resumeItem above it; ignored.`);
+          if (!owner) {
+            console.warn(`[Resumeer] %${d.kind} has no \\resumeItem above it; ignored.`);
+          } else if (d.kind === "LABEL") {
+            owner.default_label = d.label;
+          } else {
+            owner.default_off = true;
+          }
         } else if (d.field) {
           (field_options[d.field] ||= []).push({ label: d.label, value: d.value });
         } else {
@@ -233,9 +250,10 @@ export function parseResume(text, { webFont = true } = {}) {
       }
 
       bullets.forEach((b) => {
-        b.variants = buildVariants(b.default_text, b.default_label, b.options);
+        b.variants = buildVariants(b.default_text, b.default_label, b.default_off, b.options);
         delete b.options;
         delete b.default_label;
+        delete b.default_off;
         delete b._end;
       });
       entries.push({
